@@ -1,0 +1,8 @@
+:root {
+    --primary-color: #212554;
+    --primary-accent: #F8A26F;
+}
+
+html {
+    background-color: var(--primary-color);
+}
