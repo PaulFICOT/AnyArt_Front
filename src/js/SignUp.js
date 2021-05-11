@@ -21,27 +21,49 @@ export default class SignUp extends Component {
     checkForm(form) {
         let isValid = true;
 
-        for (const input of form) {
+        document.querySelectorAll("input").forEach(input => {
             if (!input.value) {
                 isValid = false;
-                input.classList.remove("uk-form-success");
-                input.classList.add("uk-form-danger");
+                this.setValidationInput(input, false);
             }
+        })
+
+        if (this.state.password !== this.state.repassword) {
+            this.setValidationInput(document.querySelector("input[id=repassword]"), false);
+            isValid = false;
         }
 
-        return isValid;
+        return isValid && this.checkAge(document.querySelector("input[id=birthdate]"));
+    }
+
+    checkAge(input) {
+        let age = Math.abs(new Date(Date.now() - new Date(input.value).getTime()).getUTCFullYear() - 1970);
+        if (age < 18) {
+            this.setValidationInput(input, false);
+            return false;
+        }
+
+        return true;
+    }
+
+    checkEmail(input) {
+        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(input.value)) {
+            this.setValidationInput(input, false)
+            return false;
+        }
+
+        return true;
     }
 
     handleSubmit(event) {
         event.preventDefault();
         if (!this.checkForm(event.target)) {
-            return;
+            return false;
         }
 
-        if (this.state.password !== this.state.repassword) {
-            console.log("ERROR");
-        }
-
+        fetch(`http://localhost:8080/api/users`, {
+            method: 'POST', body: JSON.stringify(this.state)
+        });
 
         //this.setState(initState);
     }
@@ -77,10 +99,8 @@ export default class SignUp extends Component {
 
     handleEmailChange(event) {
         this.checkEmptyInput(event.target);
+        this.checkEmail(event.target);
         this.setState({ email: event.target.value });
-        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(event.target.value)) {
-            this.setValidationInput(event.target, false)
-        }
     }
 
     handleDescriptionChange(event) {
@@ -89,9 +109,8 @@ export default class SignUp extends Component {
     }
 
     handleBirthDateChange(event) {
-        console.log(new Date(event.target.value).getTime());
-        console.log(Date.now())
         this.checkEmptyInput(event.target);
+        this.checkAge(event.target);
         this.setState({ birthDate: event.target.value });
     }
 
