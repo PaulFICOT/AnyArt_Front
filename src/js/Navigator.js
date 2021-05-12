@@ -1,12 +1,12 @@
 import { Switch, Route } from 'react-router-dom';
 
-import Viewer from './Viewer';
+import Creation from './Creation';
 
 export default function Navigator() {
 	return (
 		<Switch>
 			<Route>
-				<Viewer />
+				<Creation />
 			</Route>
 		</Switch>
 	);

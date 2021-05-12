@@ -1,7 +1,6 @@
 import { useRef, useEffect } from 'react';
 
 import Carousel from './Carousel';
-import Page from './Page';
 
 export default function Viewer() {
 	const test = [
@@ -20,9 +19,9 @@ export default function Viewer() {
 	}
 
 	return (
-		<Page>
+		<div>
 			<img ref={main} alt="" />
 			<Carousel images={test} onClick={setMain} />
-		</Page>
+		</div>
 	);
 }
