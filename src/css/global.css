@@ -1,8 +1,10 @@
 :root {
     --primary-color: #0e1025;
+    --primary-text-color: #ffffff;
     --primary-accent: #F8A26F;
 }
 
 html {
     background-color: var(--primary-color);
+    color: var(--primary-text-color);
 }
