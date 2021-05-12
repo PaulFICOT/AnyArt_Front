@@ -16,7 +16,10 @@ export default function Creation(props) {
 	return (
 		<Page>
 			<div data-uk-grid>
-				<div className="uk-width-1-2">
+				<div
+					className="uk-width-1-2"
+					data-uk-height-viewport="offset-top: true; offset-bottom: true"
+				>
 					<Viewer />
 				</div>
 				<div className="uk-width-1-2">

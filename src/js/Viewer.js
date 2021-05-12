@@ -20,7 +20,9 @@ export default function Viewer() {
 
 	return (
 		<div>
-			<img ref={main} alt="" />
+			<div>
+				<img ref={main} alt="" />
+			</div>
 			<Carousel images={test} onClick={setMain} />
 		</div>
 	);
