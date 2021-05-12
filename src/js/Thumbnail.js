@@ -1,12 +1,11 @@
 export default function Thumbnail(props) {
 	return (
 		<img
-			className="uk-thumbnav uk-height-1-1"
+			className={"uk-thumbnav uk-margin-left " + (props.rounded ? "uk-border-circle" : "uk-height-1-1")}
 			onClick={() => props.handleClick(props.src)}
 			src={props.src}
 			style={{
-				borderRadius: props.rounded ? '50%' : '0',
-				width: '100%',
+				width: !props.rounded ? '100%' : '',
 				objectFit: 'cover',
 			}}
 			alt=""
