@@ -187,7 +187,7 @@ export default class SignUp extends Component {
                     <input className="uk-input" type="password" id="password" onChange={e =>this.handlePasswordChange(e)} value={this.state.user.password} />
                     <label htmlFor="repassword">Re-password</label>
                     <input className="uk-input" type="password" id="repassword" onChange={e =>this.handleRePasswordChange(e)} value={this.state.user.repassword} />
-                    <button className="uk-button uk-button-primary uk-width-1-1" type="submit">Envoyer</button>
+                    <button className="uk-button uk-button-primary uk-width-1-1" type="submit">Register</button>
                 </form>
 			</div>
 		);
