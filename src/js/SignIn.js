@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, { useRef } from 'react';
+import ModalPortal from './ModalPortal';
 import 'uikit/dist/css/uikit.min.css'
 
-export default class SignIn extends Component {
-    emailInput = React.createRef();
-    passwordInput = React.createRef();
+export default function SignIn() {
+    const emailInput = useRef();
+    const passwordInput = useRef();
 
-    handleSubmit(event) {
+    function handleSubmit(event) {
         event.preventDefault();
-        const email = this.emailInput.current.value;
-        const password = this.passwordInput.current.value;
+        const email = emailInput.current.value;
+        const password = passwordInput.current.value;
 
         if (!email) {
             return;
@@ -25,20 +26,26 @@ export default class SignIn extends Component {
         });
     }
 
-    render() {
-        return (
-            <div className="uk-container uk-container-xsmall">
-				<header>
-					<h1 className="uk-text-center">Sign IN</h1>
-				</header>
-                <form onSubmit={event => this.handleSubmit(event)}>
-                    <label htmlFor="email">E-mail</label>
-                    <input className="uk-input" type="email" id="email" ref={ this.emailInput } />
-                    <label htmlFor="password">Password</label>
-                    <input className="uk-input" type="password" id="password" ref={ this.passwordInput } />
-                    <button className="uk-button uk-button-primary uk-width-1-1" type="submit">Sign in</button>
+    return (
+        <ModalPortal id="signin">
+            <div className="uk-modal-dialog">
+                <button className="uk-modal-close-default" type="button" data-uk-close></button>
+                <form onSubmit={(event) => {handleSubmit(event)}}>
+                    <div className="uk-modal-header">
+                        <h2 className="uk-modal-title">Sign IN</h2>
+                    </div>
+                    <div className="uk-modal-body">
+                            <label htmlFor="email">E-mail</label>
+                            <input className="uk-input" type="email" id="email" ref={ emailInput } />
+                            <label htmlFor="password">Password</label>
+                            <input className="uk-input" type="password" id="password" ref={ passwordInput } />
+                    </div>
+                    <div className="uk-modal-footer uk-text-right">
+                        <button className="uk-button uk-modal-close uk-margin-small-right cancel" type="button">Cancel</button>
+                        <button className="uk-button submit" type="submit">Sign in</button>
+                    </div>
                 </form>
             </div>
-        );
-    }
+        </ModalPortal>
+    );
 }
