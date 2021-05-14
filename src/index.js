@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'uikit/dist/css/uikit.min.css';
+import 'uikit/dist/css/uikit-core.min.css';
+import 'uikit/dist/js/uikit.min.js';
+import '@fortawesome/fontawesome-free/js/all';
 import reportWebVitals from './js/reportWebVitals';
 import App from './js/App';
 import './css/index.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>,
+	document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
