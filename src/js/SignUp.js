@@ -4,7 +4,15 @@ import 'uikit/dist/css/uikit.min.css'
 
 export default function SignUp() {
     const [countries, setCountries] = useState([]);
-    const userInput = useRef();
+    const firstnameInput = useRef();
+    const lastnameInput = useRef();
+    const countryInput = useRef();
+    const usernameInput = useRef();
+    const emailInput = useRef();
+    const descInput = useRef();
+    const birthdateInput = useRef();
+    const passwordInput = useRef();
+    const repasswordInput = useRef();
 
     useEffect(getCountries, [setCountries]);
 
@@ -17,26 +25,25 @@ export default function SignUp() {
     function checkForm() {
         let isValid = true;
 
-        document.querySelectorAll("input").forEach(input => {
+        document.querySelectorAll("#signup_form input").forEach(input => {
             if (!input.value) {
                 isValid = false;
                 setValidationInput(input, false);
             }
         })
 
-        document.querySelectorAll("select").forEach(select => {
+        document.querySelectorAll("#signup_form select").forEach(select => {
             if (!select.value) {
                 isValid = false;
                 setValidationInput(select, false);
             }
         })
-
-        if (userInput.password !== userInput.repassword) {
+        if (passwordInput.current.value !== repasswordInput.current.value) {
             setValidationInput(document.querySelector("input[id=repassword]"), false);
             isValid = false;
         }
 
-        if (!checkEmail(userInput.email)) {
+        if (!checkEmail(emailInput.current.value)) {
             isValid = false;
         }
 
@@ -53,9 +60,9 @@ export default function SignUp() {
         return true;
     }
 
-    function checkEmail(input) {
-        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(input.value)) {
-            setValidationInput(input, false)
+    function checkEmail(email) {
+        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
+            setValidationInput(document.querySelector("input[id=email]"), false)
             return false;
         }
 
@@ -64,12 +71,22 @@ export default function SignUp() {
 
     function handleSubmit(event) {
         event.preventDefault();
+
         if (!checkForm()) {
             return false;
         }
 
         fetch(`http://localhost:8080/api/users`, {
-            method: 'POST', body: JSON.stringify(userInput)
+            method: 'POST', body: JSON.stringify({
+                lastName: lastnameInput.current.value,
+                firstName: firstnameInput.current.value,
+                email: emailInput.current.value,
+                password: passwordInput.current.value,
+                birthDate: birthdateInput.current.value,
+                username: usernameInput.current.value,
+                description: descInput.current.value,
+                country: countryInput.current.value,
+            })
         });
     }
 
@@ -87,52 +104,52 @@ export default function SignUp() {
         <ModalPortal id="signup">
             <div className="uk-modal-dialog">
                 <button className="uk-modal-close-default" type="button" data-uk-close></button>
-                <div className="uk-modal-header">
-                    <h2 className="uk-modal-title">Sign UP</h2>
-                </div>
-                <div className="uk-modal-body">
-                <form onSubmit={event =>handleSubmit(event)}>
-                    <label htmlFor="firstname">Firstname</label>
-                    <input className="uk-input" type="text" id="firstname" ref={ userInput.firstname }  />
-                    <label htmlFor="lastname">Lastname</label>
-                    <input className="uk-input" type="text" id="lastname" ref={ userInput.lastname }  />
+                <form id="signup_form" onSubmit={(event) => {handleSubmit(event)}}>
+                    <div className="uk-modal-header">
+                        <h2 className="uk-modal-title">Sign UP</h2>
+                    </div>
+                    <div className="uk-modal-body">
+                        <label htmlFor="firstname">Firstname</label>
+                        <input className="uk-input" type="text" id="firstname" ref={ firstnameInput }  />
+                        <label htmlFor="lastname">Lastname</label>
+                        <input className="uk-input" type="text" id="lastname" ref={ lastnameInput }  />
 
-                    <label htmlFor="countries-select">Country</label>
-                    <select
-                        name="countries"
-                        id="countries-select"
-                        className="uk-select"
-                        ref={ userInput.country }
-                    >
-                        <option value="">--Please choose a country--</option>
-                        {countries.map(country => (
-                            <option key={country.country_id} value={country.country_id}>{country.country}</option>
-                        ))}
-                    </select>
+                        <label htmlFor="countries-select">Country</label>
+                        <select
+                            name="countries"
+                            id="countries-select"
+                            className="uk-select"
+                            ref={ countryInput }
+                        >
+                            <option value="">--Please choose a country--</option>
+                            {countries.map(country => (
+                                <option key={country.country_id} value={country.country_id}>{country.country}</option>
+                            ))}
+                        </select>
 
-                    <label htmlFor="username">Username</label>
-                    <input className="uk-input" type="text" id="username" ref={ userInput.username } />
-                    <label htmlFor="email">E-mail</label>
-                    <input className="uk-input" type="email" id="email" ref={ userInput.email } />
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                        id="description"
-                        rows="4"
-                        ref={ userInput.description }
-                        className="uk-textarea"
-                    ></textarea>
-                    <label htmlFor="birthdate">Birthdate</label>
-                    <input className="uk-input" type="date" id="birthdate" ref={ userInput.birthdate }  />
-                    <label htmlFor="password">Password</label>
-                    <input className="uk-input" type="password" id="password" ref={ userInput.password } />
-                    <label htmlFor="repassword">Re-password</label>
-                    <input className="uk-input" type="password" id="repassword" ref={ userInput.repassword } />
+                        <label htmlFor="username">Username</label>
+                        <input className="uk-input" type="text" id="username" ref={ usernameInput } />
+                        <label htmlFor="email">E-mail</label>
+                        <input className="uk-input" type="email" id="email" ref={ emailInput } />
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                            id="description"
+                            rows="4"
+                            ref={ descInput }
+                            className="uk-textarea"
+                        ></textarea>
+                        <label htmlFor="birthdate">Birthdate</label>
+                        <input className="uk-input" type="date" id="birthdate" ref={ birthdateInput }  />
+                        <label htmlFor="password">Password</label>
+                        <input className="uk-input" type="password" id="password" ref={ passwordInput } />
+                        <label htmlFor="repassword">Re-password</label>
+                        <input className="uk-input" type="password" id="repassword" ref={ repasswordInput } />
+                    </div>
+                    <div className="uk-modal-footer uk-text-right">
+                        <button className="uk-button uk-modal-close uk-margin-small-right cancel" type="button">Cancel</button>
+                        <button className="uk-button submit" type="submit">Register</button>
+                    </div>
                 </form>
-                </div>
-                <div className="uk-modal-footer uk-text-right">
-                    <button className="uk-button uk-modal-close uk-margin-small-right cancel" type="button">Cancel</button>
-                    <button className="uk-button submit" type="submit">Register</button>
-                </div>
             </div>
         </ModalPortal>
     );
