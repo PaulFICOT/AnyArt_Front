@@ -3,8 +3,11 @@ const { REACT_APP_BACKEND_DOMAIN, REACT_APP_BACKEND_PORT } = process.env;
 export default class HttpClient {
 	#baseUrl;
 
-	constructor() {
+	constructor(route = '') {
 		this.#baseUrl = `http://${REACT_APP_BACKEND_DOMAIN}:${REACT_APP_BACKEND_PORT}/api`;
+		if (route !== '') {
+			this.#baseUrl += `/${route}`;
+		}
 	}
 
 	buildUrl(route) {

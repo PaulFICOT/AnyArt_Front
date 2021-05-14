@@ -25,8 +25,8 @@ export default function Creation(props) {
 				<div className="uk-width-1-2">
 					<h3>{title || 'TITLE'}</h3>
 					<div data-uk-grid>
-						<div className="uk-width-1-6">
-							<Thumbnail src={artistPic || 'images/placeholder.png'} />
+						<div className="uk-width-1-6 uk-padding-small uk-padding-remove-vertical" >
+							<Thumbnail src={artistPic || 'images/user_avatar.png'} rounded/>
 						</div>
 						<div className="uk-width-1-2">
 							<h4>{artist || 'ARTIST'}</h4>
