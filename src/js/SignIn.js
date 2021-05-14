@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import ModalPortal from './ModalPortal';
 import 'uikit/dist/css/uikit.min.css'
+import UIkit from 'uikit';
 
 export default function SignIn() {
     const emailInput = useRef();
@@ -23,6 +24,10 @@ export default function SignIn() {
             method: 'POST', body: JSON.stringify({
                 email, password
             })
+        }).then(response => {
+            if (response.ok) {
+                UIkit.modal('#signin').hide();
+            }
         });
     }
 
