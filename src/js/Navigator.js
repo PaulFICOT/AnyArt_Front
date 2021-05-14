@@ -6,10 +6,8 @@ import Home from './Home';
 export default function Navigator() {
 	return (
 		<Switch>
-			<Route>
-				<Route path="/creation"><Creation /></Route>
-				<Route path="/"><Home /></Route>
-			</Route>
+			<Route path="/creation"><Creation /></Route>
+			<Route path="/"><Home /></Route>
 		</Switch>
 	);
 }

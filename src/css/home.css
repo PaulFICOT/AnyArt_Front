@@ -1,0 +1,11 @@
+.filters span {
+    font-size: 1.7em;
+    display: flex;
+    color: lightgray;
+}
+
+.filters svg {
+    font-size: 1.5em;
+    margin: 0 10px 0 0;
+    color: var(--primary-accent);
+}
