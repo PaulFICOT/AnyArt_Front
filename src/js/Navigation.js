@@ -2,6 +2,8 @@ import 'src/css/Navigation.css';
 import { Link } from 'react-router-dom';
 import Thumbnail from './Thumbnail';
 import Logo from './Logo';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
 export default function Navigation() {
 	return (
 		<nav className="navigation" data-uk-navbar>
@@ -36,8 +38,10 @@ export default function Navigation() {
 							<Thumbnail src={'images/user_avatar.png'} rounded/>
 							<div data-uk-dropdown="mode:click">
 								<ul className="uk-nav uk-dropdown-nav">
-									<li><a href="/">Login</a></li>
-									<li><a href="/">Register</a></li>
+									<li><a href="#signin" uk-toggle="target: #signin">Login</a></li>
+									<SignIn />
+									<li><a href="#signup" uk-toggle="target: #signup">Register</a></li>
+									<SignUp />
 								</ul>
 							</div>
 						</div>
