@@ -1,42 +1,57 @@
 export default function Comment(props) {
-	const { comment } = props;
+	const {
+		id,
+		date,
+		userId,
+		username,
+		userPic,
+		replyTo,
+		content,
+		responses,
+	} = props.comment;
 
-	console.log(comment);
+	const utcDate = new Date('2021-01-01 10:10:10');
+	const realDate = new Date(
+		Date.UTC(
+			utcDate.getFullYear(),
+			utcDate.getMonth(),
+			utcDate.getDate(),
+			utcDate.getHours(),
+			utcDate.getMinutes()
+		)
+	).toLocaleString();
 
 	return (
-		<div className="uk-card uk-card-default">
-			<div className="uk-card-header">
-				<div className="uk-grid-small uk-flex-middle" data-uk-grid>
+		<article className="uk-comment">
+			<header className="uk-comment-header">
+				<div className="uk-grid-medium uk-flex-middle" data-uk-grid>
 					<div className="uk-width-auto">
 						<img
-							className="uk-border-circle"
+							className="uk-comment-avatar"
+							src={userPic}
 							width="40"
 							height="40"
-							src="images/avatar.jpg"
 							alt=""
 						/>
 					</div>
 					<div className="uk-width-expand">
-						<h3 className="uk-card-title uk-margin-remove-bottom">Title</h3>
-						<p className="uk-text-meta uk-margin-remove-top">
-							<time dateTime="2016-04-01T19:00">April 01, 2016</time>
-						</p>
+						<h4 className="uk-comment-title uk-margin-remove">
+							<a className="uk-link-reset" href="#a">
+								{username}
+							</a>
+						</h4>
+						<ul className="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+							<li>{realDate}</li>
+							<li>
+								<a href="#a">Reply</a>
+							</li>
+						</ul>
 					</div>
 				</div>
+			</header>
+			<div className="uk-comment-body">
+				<p>{content}</p>
 			</div>
-
-			<div className="uk-card-body">
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-					eiusmod tempor incididunt.
-				</p>
-			</div>
-
-			<div className="uk-card-footer">
-				<a href="#" className="uk-button uk-button-text">
-					Read more
-				</a>
-			</div>
-		</div>
+		</article>
 	);
 }
