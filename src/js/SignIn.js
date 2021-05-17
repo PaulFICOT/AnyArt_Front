@@ -1,11 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
+import AuthService from "./Authentification/AuthService";
 import ModalPortal from './ModalPortal';
 import 'uikit/dist/css/uikit.min.css'
 import UIkit from 'uikit';
+import AuthContext from './Authentification/AuthContext';
 
 export default function SignIn() {
     const emailInput = useRef();
     const passwordInput = useRef();
+    const loginContext = useContext(AuthContext);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -20,14 +23,9 @@ export default function SignIn() {
             return;
         }
 
-        fetch(`http://localhost:8080/api/signin`, {
-            method: 'POST', body: JSON.stringify({
-                email, password
-            })
-        }).then(response => {
-            if (response.ok) {
-                UIkit.modal('#signin').hide();
-            }
+        AuthService.login(email, password).then(response => {
+            UIkit.modal('#signin').hide();
+            loginContext.setLogin(true);
         });
     }
 

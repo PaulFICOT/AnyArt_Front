@@ -1,5 +1,7 @@
 import ModalPortal from './ModalPortal';
 import React, { useState, useEffect, useRef } from 'react';
+import AuthService from "./Authentification/AuthService";
+import CountriesRequest from './HttpRequests/CountriesRequests';
 import 'uikit/dist/css/uikit.min.css'
 
 export default function SignUp() {
@@ -17,9 +19,7 @@ export default function SignUp() {
     useEffect(getCountries, [setCountries]);
 
     function getCountries() {
-        return fetch('http://localhost:8080/api/countries')
-            .then(response => response.json())
-            .then(countries => setCountries(countries));
+        return CountriesRequest.getAll().then(countries => setCountries(countries));
     }
 
     function checkForm() {
@@ -76,17 +76,15 @@ export default function SignUp() {
             return false;
         }
 
-        fetch(`http://localhost:8080/api/users`, {
-            method: 'POST', body: JSON.stringify({
-                lastName: lastnameInput.current.value,
-                firstName: firstnameInput.current.value,
-                email: emailInput.current.value,
-                password: passwordInput.current.value,
-                birthDate: birthdateInput.current.value,
-                username: usernameInput.current.value,
-                description: descInput.current.value,
-                country: countryInput.current.value,
-            })
+        AuthService.register({
+            lastName: lastnameInput.current.value,
+            firstName: firstnameInput.current.value,
+            email: emailInput.current.value,
+            password: passwordInput.current.value,
+            birthDate: birthdateInput.current.value,
+            username: usernameInput.current.value,
+            description: descInput.current.value,
+            country: countryInput.current.value,
         });
     }
 

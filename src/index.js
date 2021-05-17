@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import 'uikit/dist/css/uikit.min.css';
 import 'uikit/dist/css/uikit-core.min.css';
@@ -6,12 +6,23 @@ import 'uikit/dist/js/uikit.min.js';
 import '@fortawesome/fontawesome-free/js/all';
 import reportWebVitals from './js/reportWebVitals';
 import App from './js/App';
+import AuthContext from './js/Authentification/AuthContext';
 import './css/index.css';
 
+const AppWrapper = () => {
+	const [isLogin, setLogin] = useState(localStorage.getItem("token") !== null)
+
+	return (
+		<AuthContext.Provider value={{ isLogin, setLogin }}>
+			<React.StrictMode>
+				<App />
+			</React.StrictMode>
+		</AuthContext.Provider>
+	)
+}
+
 ReactDOM.render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
+	<AppWrapper />,
 	document.getElementById('root')
 );
 
