@@ -43,6 +43,7 @@ export default function SignIn() {
                             <input className="uk-input" type="email" id="email" ref={ emailInput } />
                             <label htmlFor="password">Password</label>
                             <input className="uk-input" type="password" id="password" ref={ passwordInput } />
+                            <span>You don't have an account ? <a href="#signup" uk-toggle="target: #signup">Create an account.</a></span>
                     </div>
                     <div className="uk-modal-footer uk-text-right">
                         <button className="uk-button uk-modal-close uk-margin-small-right cancel" type="button">Cancel</button>
