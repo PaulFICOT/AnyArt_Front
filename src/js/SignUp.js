@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import AuthService from "./Authentification/AuthService";
 import CountriesRequest from './HttpRequests/CountriesRequests';
 import 'uikit/dist/css/uikit.min.css'
+import UIkit from 'uikit';
 
 export default function SignUp() {
     const [countries, setCountries] = useState([]);
@@ -24,45 +25,53 @@ export default function SignUp() {
 
     function checkForm() {
         let isValid = true;
+        let errors_messages = [];
 
         document.querySelectorAll("#signup_form input").forEach(input => {
             if (!input.value) {
+                errors_messages.push(input.name + "is missing.");
                 isValid = false;
-                setValidationInput(input, false);
             }
         })
 
         document.querySelectorAll("#signup_form select").forEach(select => {
             if (!select.value) {
+                errors_messages.push(select.name + "is missing.");
                 isValid = false;
-                setValidationInput(select, false);
             }
         })
+
         if (passwordInput.current.value !== repasswordInput.current.value) {
-            setValidationInput(document.querySelector("input[id=repassword]"), false);
+            errors_messages.push("Password and Re-password are not the same.");
             isValid = false;
         }
 
-        if (!checkEmail(emailInput.current.value)) {
+        if (!checkAge(document.querySelector("input[id=birthdate]"))) {
+            errors_messages.push("You must be at least 18 years old.");
             isValid = false;
         }
 
-        return isValid && checkAge(document.querySelector("input[id=birthdate]"));
+        if (!isValid) {
+            let html_return = "<ul>";
+            errors_messages.forEach(error => {
+                html_return += "<li>" + error + "</li>"
+            })
+            html_return += "</ul>";
+
+            UIkit.notification({
+                message: html_return,
+                status: 'danger',
+                pos: 'top-right',
+                timeout: 5000
+            });
+        }
+
+        return isValid;
     }
 
     function checkAge(input) {
         let age = Math.abs(new Date(Date.now() - new Date(input.value).getTime()).getUTCFullYear() - 1970);
         if (age < 18) {
-            setValidationInput(input, false);
-            return false;
-        }
-
-        return true;
-    }
-
-    function checkEmail(email) {
-        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
-            setValidationInput(document.querySelector("input[id=email]"), false)
             return false;
         }
 
@@ -85,17 +94,30 @@ export default function SignUp() {
             username: usernameInput.current.value,
             description: descInput.current.value,
             country: countryInput.current.value,
+        }).then(response => {
+            if (response.ok) {
+                UIkit.modal("#signup").hide();
+                return response.text().then(text => {
+                    UIkit.notification({
+                        message: text,
+                        status: 'success',
+                        pos: 'top-right',
+                        timeout: 5000
+                    });
+                    return true;
+                });
+            } else {
+                return response.text().then(text => {
+                    UIkit.notification({
+                        message: text,
+                        status: 'danger',
+                        pos: 'top-right',
+                        timeout: 5000
+                    });
+                    return false;
+                });
+            }
         });
-    }
-
-    function setValidationInput(input, isValid) {
-        if (isValid) {
-            input.classList.remove("uk-form-danger");
-            input.classList.add("uk-form-success");
-        } else {
-            input.classList.remove("uk-form-success");
-            input.classList.add("uk-form-danger");
-        }
     }
 
     return (
@@ -108,13 +130,13 @@ export default function SignUp() {
                     </div>
                     <div className="uk-modal-body">
                         <label htmlFor="firstname">Firstname</label>
-                        <input className="uk-input" type="text" id="firstname" ref={ firstnameInput }  />
+                        <input name="Firstname" className="uk-input" type="text" id="firstname" ref={ firstnameInput }  />
                         <label htmlFor="lastname">Lastname</label>
-                        <input className="uk-input" type="text" id="lastname" ref={ lastnameInput }  />
+                        <input name="Lastname" className="uk-input" type="text" id="lastname" ref={ lastnameInput }  />
 
                         <label htmlFor="countries-select">Country</label>
                         <select
-                            name="countries"
+                            name="Countries"
                             id="countries-select"
                             className="uk-select"
                             ref={ countryInput }
@@ -126,22 +148,23 @@ export default function SignUp() {
                         </select>
 
                         <label htmlFor="username">Username</label>
-                        <input className="uk-input" type="text" id="username" ref={ usernameInput } />
+                        <input name="Username" className="uk-input" type="text" id="username" ref={ usernameInput } />
                         <label htmlFor="email">E-mail</label>
-                        <input className="uk-input" type="email" id="email" ref={ emailInput } />
+                        <input name="E-mail" className="uk-input" type="email" id="email" ref={ emailInput } />
                         <label htmlFor="description">Description</label>
                         <textarea
                             id="description"
                             rows="4"
                             ref={ descInput }
                             className="uk-textarea"
+                            name="Description"
                         ></textarea>
                         <label htmlFor="birthdate">Birthdate</label>
-                        <input className="uk-input" type="date" id="birthdate" ref={ birthdateInput }  />
+                        <input name="Birthdate" className="uk-input" type="date" id="birthdate" ref={ birthdateInput }  />
                         <label htmlFor="password">Password</label>
-                        <input className="uk-input" type="password" id="password" ref={ passwordInput } />
+                        <input name="Password" className="uk-input" type="password" id="password" ref={ passwordInput } />
                         <label htmlFor="repassword">Re-password</label>
-                        <input className="uk-input" type="password" id="repassword" ref={ repasswordInput } />
+                        <input name="Re-password" className="uk-input" type="password" id="repassword" ref={ repasswordInput } />
                     </div>
                     <div className="uk-modal-footer uk-text-right">
                         <button className="uk-button uk-modal-close uk-margin-small-right cancel" type="button">Cancel</button>

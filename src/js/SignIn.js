@@ -3,6 +3,7 @@ import AuthService from "./Authentification/AuthService";
 import ModalPortal from './ModalPortal';
 import 'uikit/dist/css/uikit.min.css'
 import AuthContext from './Authentification/AuthContext';
+import UIkit from 'uikit';
 
 export default function SignIn() {
     const emailInput = useRef();
@@ -14,16 +15,18 @@ export default function SignIn() {
         const email = emailInput.current.value;
         const password = passwordInput.current.value;
 
-        if (!email) {
-            return;
-        }
-
-        if (!password) {
+        if (!email || !password) {
+            UIkit.notification({
+                message: 'Email and password are required.',
+                status: 'danger',
+                pos: 'top-right',
+                timeout: 5000
+            });
             return;
         }
 
         AuthService.login(email, password).then(response => {
-            loginContext.setLogin(true);
+            loginContext.setLogin(response);
         });
     }
 

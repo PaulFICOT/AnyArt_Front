@@ -21,10 +21,6 @@ export default class HttpClient {
 		const url = new URL(route, this.#baseUrl);
 		return fetch(url.toString(), {
 			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
 			body: JSON.stringify(params),
 		});
 	}
