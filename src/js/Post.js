@@ -37,7 +37,7 @@ export default function Post(props) {
 				artistIsVerified: result.is_verified,
 				artistJob: result.job_function,
 				openToWork: result.open_to_work,
-				artistPic: '',
+				artistPic: result.url,
 				content: result.content,
 				nbViews: result.view_count,
 				nbLikes: result.likes,
@@ -81,6 +81,30 @@ export default function Post(props) {
 		});
 	}, [postId]);
 
+	function updateComments() {
+		PostRequests.getCommentsByPostId(postId).then(response => {
+			const comments = response.map(x => {
+				return {
+					id: x.comment_id,
+					date: x.crea_date,
+					userId: x.user_id,
+					username: x.username,
+					userPic: x.url,
+					replyTo: x.reply_to,
+					content: x.content,
+					responses: [],
+				};
+			});
+			comments
+				.filter(x => x.replyTo != null)
+				.forEach(x => comments.find(y => y.id === x.replyTo).responses.push(x));
+			setComments(comments.filter(x => x.replyTo === null));
+		});
+	}
+
+	function updateLikes() {}
+	function updateDislikes() {}
+
 	return (
 		<Page>
 			<div data-uk-grid>
@@ -92,7 +116,8 @@ export default function Post(props) {
 				</div>
 				<div className="uk-width-1-2@l uk-width-1-1@s uk-light">
 					<div className="uk-card uk-card-secondary uk-card-body">
-						<h2>{post.title}</h2>
+						<h2 className="uk-margin-remove">{post.title}</h2>
+						<Link to={'/category/' + category.id}>{category.name}</Link>
 						<div data-uk-grid>
 							<div className="uk-width-1-6">
 								<Thumbnail src={post.artistPic} />
@@ -143,9 +168,20 @@ export default function Post(props) {
 							</div>
 						</div>
 						<p>{post.content}</p>
-						<hr />
 						<div>
-							<CommentBlock comments={comments} />
+							{tags.map((x, i) => (
+								<span key={i} className="uk-label uk-margin-right">
+									{x.name}
+								</span>
+							))}
+						</div>
+						<hr className="uk-grid-margin-small" />
+						<div>
+							<CommentBlock
+								comments={comments}
+								postId={postId}
+								updateTrigger={updateComments}
+							/>
 						</div>
 					</div>
 				</div>

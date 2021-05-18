@@ -22,4 +22,8 @@ export default class PostRequests {
 	static getCommentsByPostId(id) {
 		return httpClient.get(`/${id}/comments`);
 	}
+
+	static postComment(id, parameters) {
+		return httpClient.post(`/${id}/comments`, parameters);
+	}
 }
