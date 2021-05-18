@@ -5,11 +5,11 @@ import UIkit from 'uikit';
 const httpClient = new HttpClient();
 
 const register = (new_user) => {
-    return httpClient.post('api/users', new_user);
+    return httpClient.post('users', new_user);
 };
 
 const login = (email, password) => {
-    return httpClient.post('api/signin', {
+    return httpClient.post('signin', {
         email, password
     }).then(response => {
         if (response.ok) {
