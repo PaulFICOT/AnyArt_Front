@@ -1,7 +1,12 @@
-import Logo from './Logo';
-import Thumbnail from './Thumbnail';
-import { Link } from 'react-router-dom';
 import 'src/css/Navigation.css';
+import { Link } from 'react-router-dom';
+import Thumbnail from './Thumbnail';
+import Logo from './Logo';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import LogOut from './LogOut';
+import AuthComponent from './Authentification/AuthComponent';
+import React from 'react';
 
 export default function Navigation() {
 	return (
@@ -20,25 +25,39 @@ export default function Navigation() {
 				<ul className="uk-navbar-nav">
 					<li className="uk-navbar-item">
 						<form>
-							<input className="uk-input uk-form-width-small" type="text" placeholder="Input"/>
+							<input
+								className="uk-input uk-form-width-small"
+								type="text"
+								placeholder="Input"
+							/>
 							<button className="uk-button uk-button-default">Button</button>
 						</form>
 					</li>
-					<li className="uk-navbar-item">
-						<Link to="/add" style={{ textDecoration: 'none' }}>
-							<button className="uk-button uk-button-default">Post</button>
-						</Link>
-					</li>
-					<li className="uk-navbar-item">
-						<div className="bell"><i className="fas fa-bell"></i></div>
-					</li>
+					<AuthComponent login="true">
+						<li className="uk-navbar-item">
+							<Link to="/add" style={{ textDecoration: 'none' }}>
+								<button className="uk-button uk-button-default">Post</button>
+							</Link>
+						</li>
+						<li className="uk-navbar-item">
+							<div className="bell"><i className="fas fa-bell"></i></div>
+						</li>
+					</AuthComponent>
 					<li>
 						<div className="uk-width-small avatar uk-margin-small-right uk-logo">
-							<Thumbnail src={'images/user_avatar.png'} rounded/>
+							<Thumbnail src={'2LowviVHZ-E'} rounded />
 							<div data-uk-dropdown="mode:click">
 								<ul className="uk-nav uk-dropdown-nav">
-									<li><a href="/">Login</a></li>
-									<li><a href="/">Register</a></li>
+									<AuthComponent login="true">
+										<li><a href="#logout" uk-toggle="target: #logout">Logout</a></li>
+										<LogOut />
+									</AuthComponent>
+									<AuthComponent login="false">
+										<li><a href="#signin" uk-toggle="target: #signin">Login</a></li>
+										<SignIn />
+										<li><a href="#signup" uk-toggle="target: #signup">Register</a></li>
+										<SignUp />
+									</AuthComponent>
 								</ul>
 							</div>
 						</div>
