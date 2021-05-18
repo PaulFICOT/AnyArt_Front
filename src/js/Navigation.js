@@ -25,7 +25,11 @@ export default function Navigation() {
 				<ul className="uk-navbar-nav">
 					<li className="uk-navbar-item">
 						<form>
-							<input className="uk-input uk-form-width-small" type="text" placeholder="Input"/>
+							<input
+								className="uk-input uk-form-width-small"
+								type="text"
+								placeholder="Input"
+							/>
 							<button className="uk-button uk-button-default">Button</button>
 						</form>
 					</li>
@@ -41,7 +45,7 @@ export default function Navigation() {
 					</AuthComponent>
 					<li>
 						<div className="uk-width-small avatar uk-margin-small-right uk-logo">
-							<Thumbnail src={'images/user_avatar.png'} rounded/>
+							<Thumbnail src={'2LowviVHZ-E'} rounded />
 							<div data-uk-dropdown="mode:click">
 								<ul className="uk-nav uk-dropdown-nav">
 									<AuthComponent login="true">
