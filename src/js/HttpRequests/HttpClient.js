@@ -3,8 +3,11 @@ const { REACT_APP_BACKEND_DOMAIN, REACT_APP_BACKEND_PORT } = process.env;
 export default class HttpClient {
 	#baseUrl;
 
-	constructor() {
+	constructor(route = '') {
 		this.#baseUrl = `http://${REACT_APP_BACKEND_DOMAIN}:${REACT_APP_BACKEND_PORT}/api`;
+		if (route !== '') {
+			this.#baseUrl += `/${route}`;
+		}
 	}
 
 	buildUrl(route) {
@@ -18,10 +21,14 @@ export default class HttpClient {
 	}
 
 	post(route, params) {
-		const url = new URL(route, this.#baseUrl);
+		const url = new URL(this.buildUrl(route));
 		return fetch(url.toString(), {
 			method: 'POST',
+			// headers: {
+			// 	Accept: 'application/json',
+			// 	'Content-Type': 'application/json',
+			// },
 			body: JSON.stringify(params),
-		});
+		}).then(response => response.json());
 	}
 }
