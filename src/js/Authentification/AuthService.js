@@ -12,16 +12,15 @@ const login = (email, password) => {
     return httpClient.post('api/signin', {
         email, password
     }).then(response => {
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.indexOf("application/json") !== -1) {
+        if (response.ok) {
             return response.json().then(data => {
-                localStorage.setItem('token', JSON.stringify(data));
+                localStorage.setItem('token', data.token);
                 return true;
             });
         } else {
-            return response.text().then(text => {
+            return response.json().then(data => {
                 UIkit.notification({
-                    message: text,
+                    message: data.message,
                     status: 'danger',
                     pos: 'top-right',
                     timeout: 5000

@@ -97,26 +97,16 @@ export default function SignUp() {
         }).then(response => {
             if (response.ok) {
                 UIkit.modal("#signup").hide();
-                return response.text().then(text => {
-                    UIkit.notification({
-                        message: text,
-                        status: 'success',
-                        pos: 'top-right',
-                        timeout: 5000
-                    });
-                    return true;
-                });
-            } else {
-                return response.text().then(text => {
-                    UIkit.notification({
-                        message: text,
-                        status: 'danger',
-                        pos: 'top-right',
-                        timeout: 5000
-                    });
-                    return false;
-                });
             }
+            return response.json().then(data => {
+                UIkit.notification({
+                    message: data.message,
+                    status: (response.ok) ? 'success' : 'danger',
+                    pos: 'top-right',
+                    timeout: 5000
+                });
+                return true;
+            });
         });
     }
 
