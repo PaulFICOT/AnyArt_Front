@@ -24,11 +24,11 @@ export default class HttpClient {
 		const url = new URL(this.buildUrl(route));
 		return fetch(url.toString(), {
 			method: 'POST',
-			// headers: {
-			// 	Accept: 'application/json',
-			// 	'Content-Type': 'application/json',
-			// },
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
 			body: JSON.stringify(params),
-		}).then(response => response.json());
+		});
 	}
 }
