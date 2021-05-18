@@ -2,7 +2,6 @@ import React, { useRef, useContext } from 'react';
 import AuthService from "./Authentification/AuthService";
 import ModalPortal from './ModalPortal';
 import 'uikit/dist/css/uikit.min.css'
-import UIkit from 'uikit';
 import AuthContext from './Authentification/AuthContext';
 
 export default function SignIn() {
@@ -24,7 +23,6 @@ export default function SignIn() {
         }
 
         AuthService.login(email, password).then(response => {
-            UIkit.modal('#signin').hide();
             loginContext.setLogin(true);
         });
     }

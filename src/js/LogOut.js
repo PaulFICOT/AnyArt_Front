@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import AuthService from "./Authentification/AuthService";
 import ModalPortal from './ModalPortal';
 import 'uikit/dist/css/uikit.min.css'
-import UIkit from 'uikit';
 import AuthContext from './Authentification/AuthContext';
 
 export default function LogOut() {
@@ -11,7 +10,6 @@ export default function LogOut() {
     function handleButton(event) {
         event.preventDefault();
         AuthService.logout();
-        UIkit.modal('#logout').hide();
         loginContext.setLogin(false);
     }
 
