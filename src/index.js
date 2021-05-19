@@ -13,9 +13,12 @@ import './css/index.css';
 const AppWrapper = () => {
 	const [isLogin, setLogin] = useState(false);
 
-	AuthService.verifToken().then(response => {
-		setLogin(response);
-	});
+	if (AuthService.getCurrentUser() != null) {
+		AuthService.verifToken().then(response => {
+			setLogin(response);
+		});
+	}
+
 
 	return (
 		<AuthContext.Provider value={{ isLogin, setLogin }}>

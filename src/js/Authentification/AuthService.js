@@ -45,10 +45,6 @@ const getCurrentToken = () => {
 };
 
 const verifToken = () => {
-    if (getCurrentUser() == null) {
-        return false;
-    }
-
     return httpClient.post('users/verif', {
         id: getCurrentUser().user_id,
         token: getCurrentToken(),
