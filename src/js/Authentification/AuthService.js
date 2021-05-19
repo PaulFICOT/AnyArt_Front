@@ -1,4 +1,3 @@
-import { decodeToken } from "react-jwt";
 import HttpClient from '../HttpRequests/HttpClient';
 import UIkit from 'uikit';
 
@@ -15,6 +14,7 @@ const login = (email, password) => {
         if (response.ok) {
             return response.json().then(data => {
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
                 return true;
             });
         } else {
@@ -33,17 +33,31 @@ const login = (email, password) => {
 
 const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
 };
 
 const getCurrentUser = () => {
-    return decodeToken(localStorage.getItem("token")).user;
+    return JSON.parse(localStorage.getItem("user"));
 };
+
+const getCurrentToken = () => {
+    return localStorage.getItem("token");
+};
+
+const verifToken = () => {
+    return httpClient.post('users/verif', {
+        id: getCurrentUser().user_id,
+        token: getCurrentToken(),
+    }).then(response => response.json()).then(data => data.login);
+}
 
 const auth_functions = {
     register,
     login,
     logout,
     getCurrentUser,
+    getCurrentToken,
+    verifToken,
 };
 
 export default auth_functions;
