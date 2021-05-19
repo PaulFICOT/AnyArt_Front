@@ -1,3 +1,4 @@
+import AuthService from "./js/Authentification/AuthService";
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import 'uikit/dist/css/uikit.min.css';
@@ -10,7 +11,11 @@ import AuthContext from './js/Authentification/AuthContext';
 import './css/index.css';
 
 const AppWrapper = () => {
-	const [isLogin, setLogin] = useState(localStorage.getItem("token") !== null)
+	const [isLogin, setLogin] = useState(false);
+
+	AuthService.verifToken().then(response => {
+		setLogin(response);
+	});
 
 	return (
 		<AuthContext.Provider value={{ isLogin, setLogin }}>

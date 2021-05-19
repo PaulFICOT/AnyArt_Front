@@ -20,7 +20,14 @@ export default function SignUp() {
     useEffect(getCountries, [setCountries]);
 
     function getCountries() {
-        return CountriesRequest.getAll().then(countries => setCountries(countries));
+        let mounted = true;
+        CountriesRequest.getAll().then(countries => {
+            if (mounted) {
+                setCountries(countries);
+            }
+        });
+
+        return () => mounted = false;
     }
 
     function checkForm() {
