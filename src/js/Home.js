@@ -7,9 +7,16 @@ export default function Home(props) {
 	const [posts, setPosts] = useState([]);
 
 	function fetchPosts() {
+		let mounted = true;
 		fetch('http://localhost:8080/api/posts/thumbnails')
-			.then(response => response.json())
-			.then(data => setPosts(data));
+		.then(response => response.json())
+		.then(data => {
+			if (mounted) {
+				setPosts(data);
+			}
+		});
+
+		return () => mounted = false;
 	}
 
 	useEffect(fetchPosts, [setPosts]);
