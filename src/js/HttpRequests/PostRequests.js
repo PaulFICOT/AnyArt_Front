@@ -26,4 +26,12 @@ export default class PostRequests {
 	static postComment(id, parameters) {
 		return httpClient.post(`/${id}/comments`, parameters);
 	}
+
+	static getThumbnailsDiscover(id){
+		return httpClient.get(`/${id}/discover`);
+	}
+
+	static getThumbnailsUnlogged(parameters) {
+		return httpClient.get(`/thumbnails/${parameters}`);
+	}
 }
