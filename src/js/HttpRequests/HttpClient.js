@@ -1,3 +1,4 @@
+import AuthService from '../Authentification/AuthService';
 const { REACT_APP_BACKEND_DOMAIN, REACT_APP_BACKEND_PORT } = process.env;
 
 export default class HttpClient {
@@ -20,13 +21,14 @@ export default class HttpClient {
 		return fetch(url.toString(), {}).then(response => response.json());
 	}
 
-	post(route, params) {
+	post(route, params, secured) {
 		const url = new URL(this.buildUrl(route));
 		return fetch(url.toString(), {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
+				'Authorization': (secured) ? AuthService.getCurrentToken() : '',
 			},
 			body: JSON.stringify(params),
 		});

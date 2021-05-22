@@ -6,9 +6,11 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import LogOut from './LogOut';
 import AuthComponent from './Authentification/AuthComponent';
+import AuthService from './Authentification/AuthService';
 import React from 'react';
 
 export default function Navigation() {
+	const current_user_id = (AuthService.getCurrentUser()) ? AuthService.getCurrentUser().user_id : -1;
 	return (
 		<nav className="navigation" data-uk-navbar>
 			<div className="uk-navbar-left">
@@ -49,6 +51,11 @@ export default function Navigation() {
 							<div data-uk-dropdown="mode:click">
 								<ul className="uk-nav uk-dropdown-nav">
 									<AuthComponent login="true">
+										<li>
+											<Link to={`/profils/${current_user_id}`} style={{ textDecoration: 'none' }}>
+												Profil
+											</Link>
+										</li>
 										<li><a href="#logout" uk-toggle="target: #logout">Logout</a></li>
 										<LogOut />
 									</AuthComponent>
