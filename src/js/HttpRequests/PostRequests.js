@@ -34,4 +34,6 @@ export default class PostRequests {
 	static getOpinion(id) {
 		return httpClient.get(`/${id}/opinion`);
 	}
+
+	static createPost(parameters, files) {}
 }

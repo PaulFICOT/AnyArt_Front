@@ -1,5 +1,4 @@
 export default function Thumbnail(props) {
-	const src = 'https://source.unsplash.com/' + props.src + '/800x800';
 	const width = props.width ?? 'auto';
 	const height = props.height ?? 'auto';
 
@@ -9,13 +8,13 @@ export default function Thumbnail(props) {
 				'uk-thumbnav uk-margin-left ' +
 				(props.rounded ? 'uk-border-circle' : 'uk-height-1-1')
 			}
-			onClick={props.handleClick ? () => props.handleClick(src) : null}
-			src={src}
+			onClick={props.handleClick ? () => props.handleClick(props.src) : null}
+			src={props.src}
 			style={{
 				width: !props.rounded ? '100%' : '',
 				objectFit: 'cover',
 			}}
-			alt={src}
+			alt={props.src}
 			width={width}
 			height={height}
 		/>

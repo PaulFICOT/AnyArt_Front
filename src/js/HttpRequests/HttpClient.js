@@ -31,4 +31,16 @@ export default class HttpClient {
 			body: JSON.stringify(params),
 		});
 	}
+
+	upload(route, formData) {
+		const url = new URL(this.buildUrl(route));
+		return fetch(url.toString(), {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: formData,
+		});
+	}
 }
