@@ -1,5 +1,8 @@
 export default function Thumbnail(props) {
 	const src = 'https://source.unsplash.com/' + props.src + '/800x800';
+	const width = props.width ?? 'auto';
+	const height = props.height ?? 'auto';
+
 	return (
 		<img
 			className={
@@ -13,6 +16,8 @@ export default function Thumbnail(props) {
 				objectFit: 'cover',
 			}}
 			alt={src}
+			width={width}
+			height={height}
 		/>
 	);
 }

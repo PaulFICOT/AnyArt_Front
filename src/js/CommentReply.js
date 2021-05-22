@@ -1,26 +1,28 @@
 import { useRef } from 'react';
 import PostRequests from './HttpRequests/PostRequests';
+import AuthService from './Authentification/AuthService';
 
 export default function CommentReply(props) {
 	const { postId, replyTo, updateTrigger } = props;
 
 	const contentInput = useRef('');
 	const formInput = useRef('');
+	const loggedUser = AuthService.getCurrentUser();
 
 	function getSQLDate() {
 		const date = new Date();
 		return date.toISOString().substr(0, 19).replace('T', ' ');
 	}
 
-	function postNewComment(postId, event) {
+	async function postNewComment(postId, event) {
 		event.preventDefault();
 		const messageContent = contentInput.current.value;
 
-		PostRequests.postComment(postId, {
+		await PostRequests.postComment(postId, {
 			content: messageContent,
 			crea_date: getSQLDate(),
 			reply_to: replyTo,
-			user_id: 1,
+			user_id: loggedUser.user_id,
 		}).then(response => response);
 
 		formInput.current.reset();

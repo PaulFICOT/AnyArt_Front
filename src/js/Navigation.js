@@ -7,6 +7,7 @@ import SignUp from './SignUp';
 import LogOut from './LogOut';
 import AuthComponent from './Authentification/AuthComponent';
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function Navigation() {
 	return (
@@ -40,7 +41,9 @@ export default function Navigation() {
 							</Link>
 						</li>
 						<li className="uk-navbar-item">
-							<div className="bell"><i className="fas fa-bell"></i></div>
+							<div className="bell">
+								<FontAwesomeIcon icon="bell" />
+							</div>
 						</li>
 					</AuthComponent>
 					<li>
@@ -49,13 +52,25 @@ export default function Navigation() {
 							<div data-uk-dropdown="mode:click">
 								<ul className="uk-nav uk-dropdown-nav">
 									<AuthComponent login="true">
-										<li><a href="#logout" uk-toggle="target: #logout">Logout</a></li>
+										<li>
+											<a href="#logout" uk-toggle="target: #logout">
+												Logout
+											</a>
+										</li>
 										<LogOut />
 									</AuthComponent>
 									<AuthComponent login="false">
-										<li><a href="#signin" uk-toggle="target: #signin">Login</a></li>
+										<li>
+											<a href="#signin" uk-toggle="target: #signin">
+												Login
+											</a>
+										</li>
 										<SignIn />
-										<li><a href="#signup" uk-toggle="target: #signup">Register</a></li>
+										<li>
+											<a href="#signup" uk-toggle="target: #signup">
+												Register
+											</a>
+										</li>
 										<SignUp />
 									</AuthComponent>
 								</ul>

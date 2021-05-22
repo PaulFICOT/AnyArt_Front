@@ -1,8 +1,10 @@
 import Comment from './Comment';
 import CommentReply from './CommentReply';
+import AuthService from './Authentification/AuthService';
 
 export default function CommentBlock(props) {
 	const { comments, postId, updateTrigger } = props;
+	const loggedUser = AuthService.getCurrentUser();
 
 	function generateComment(comment, index) {
 		return (
@@ -23,7 +25,7 @@ export default function CommentBlock(props) {
 
 	return (
 		<>
-			{comments.length === 0 ? (
+			{comments.length === 0 && loggedUser != null ? (
 				<CommentReply
 					postId={postId}
 					replyTo={null}
