@@ -54,8 +54,6 @@ export default function Post(props) {
 					artistPic: result.url,
 					content: result.content,
 					nbViews: result.view_count,
-					nbLikes: result.likes,
-					nbDislikes: result.dislikes,
 					isLiked: result.isLiked === '1',
 					isDisliked: result.isDisliked === '1',
 				});
@@ -129,8 +127,10 @@ export default function Post(props) {
 			user_id: loggedUser.user_id,
 			crea_date: getSQLDate(),
 		});
-		post.isLiked = true;
-		post.isDisliked = false;
+		const newPost = JSON.parse(JSON.stringify(post));
+		newPost.isLiked = true;
+		newPost.isDisliked = false;
+		await setPost(newPost);
 		updateOpinions();
 	}
 
@@ -140,8 +140,10 @@ export default function Post(props) {
 			user_id: loggedUser.user_id,
 			crea_date: getSQLDate(),
 		});
-		post.isLiked = false;
-		post.isDisliked = true;
+		const newPost = JSON.parse(JSON.stringify(post));
+		newPost.isLiked = false;
+		newPost.isDisliked = true;
+		await setPost(newPost);
 		updateOpinions();
 	}
 
@@ -150,12 +152,15 @@ export default function Post(props) {
 			action: 'remove',
 			user_id: loggedUser.user_id,
 		});
+		const newPost = JSON.parse(JSON.stringify(post));
+		newPost.isLiked = false;
+		newPost.isDisliked = false;
+		await setPost(newPost);
 		updateOpinions();
 	}
 
 	function updateOpinions() {
 		PostRequests.getOpinion(postId).then(response => {
-			console.log(response);
 			setOpinions({
 				likes: response.likes,
 				dislikes: response.dislikes,
@@ -187,7 +192,7 @@ export default function Post(props) {
 										{post.artistName}
 										{post.artistIsVerified ? (
 											<sup>
-												<i className="fas fa-check-circle" />
+												<FontAwesomeIcon icon={['fas', 'check-circle']} />
 											</sup>
 										) : (
 											''
@@ -198,7 +203,7 @@ export default function Post(props) {
 									{post.artistJob}
 									{post.openToWork ? (
 										<sup>
-											<i className="fas fa-briefcase" />
+											<FontAwesomeIcon icon={['fas', 'briefcase']} />
 										</sup>
 									) : (
 										''
@@ -207,11 +212,11 @@ export default function Post(props) {
 							</div>
 							<div className="uk-width-1-3" data-uk-grid>
 								<div className="uk-width-1-1 uk-padding-remove">
-									<Counter icon="fa-eye" count={post.nbViews} />
+									<Counter icon="eye" count={post.nbViews} />
 								</div>
 								<div className="uk-width-1-2 uk-padding-remove">
 									<Counter
-										icon="fa-thumbs-up"
+										icon="thumbs-up"
 										count={opinions.likes}
 										solid={post.isLiked}
 										onClickCallback={_event =>
@@ -221,7 +226,7 @@ export default function Post(props) {
 								</div>
 								<div className="uk-width-1-2 uk-padding-remove">
 									<Counter
-										icon="fa-thumbs-down"
+										icon="thumbs-down"
 										count={opinions.dislikes}
 										solid={post.isDisliked}
 										onClickCallback={_event =>
