@@ -1,6 +1,6 @@
 import 'src/css/Navigation.css';
 import { Link } from 'react-router-dom';
-import Thumbnail from './Thumbnail';
+import Thumbnail from './Component/Thumbnail';
 import Logo from './Logo';
 import SignIn from './SignIn';
 import SignUp from './SignUp';

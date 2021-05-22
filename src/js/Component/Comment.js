@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import CommentReply from './CommentReply';
 import { useState } from 'react';
 import Thumbnail from './Thumbnail';
-import AuthService from './Authentification/AuthService';
+import AuthService from '../Authentification/AuthService';
 
 export default function Comment(props) {
 	const { id, date, userId, username, userPic, content } = props.comment;

@@ -1,6 +1,6 @@
 import Comment from './Comment';
 import CommentReply from './CommentReply';
-import AuthService from './Authentification/AuthService';
+import AuthService from '../Authentification/AuthService';
 
 export default function CommentBlock(props) {
 	const { comments, postId, updateTrigger } = props;
