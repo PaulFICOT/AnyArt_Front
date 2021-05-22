@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import CommentReply from './CommentReply';
 import { useState } from 'react';
+import Thumbnail from './Thumbnail';
+import AuthService from './Authentification/AuthService';
 
 export default function Comment(props) {
 	const { id, date, userId, username, userPic, content } = props.comment;
@@ -19,6 +21,7 @@ export default function Comment(props) {
 	).toLocaleString();
 
 	const [reply, setReply] = useState(false);
+	const loggedUser = AuthService.getCurrentUser();
 
 	function customUpdateTrigger() {
 		updateTrigger();
@@ -26,7 +29,7 @@ export default function Comment(props) {
 	}
 
 	function switchReply() {
-		setReply(!reply);
+		setReply(!reply && loggedUser != null);
 	}
 
 	return (
@@ -34,15 +37,9 @@ export default function Comment(props) {
 			<article className="uk-comment">
 				<header className="uk-comment-header">
 					<div className="uk-grid-medium uk-flex-middle" data-uk-grid>
-						<div className="uk-width-auto">
+						<div className="uk-comment-avatar">
 							<Link to={'/user/' + userId}>
-								<img
-									className="uk-comment-avatar"
-									src={'https://source.unsplash.com/' + userPic + '/800x800'}
-									width="40"
-									height="40"
-									alt=""
-								/>
+								<Thumbnail src={userPic} width="60px" height="60px" rounded />
 							</Link>
 						</div>
 						<div className="uk-width-expand">
