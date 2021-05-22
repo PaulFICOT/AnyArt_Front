@@ -1,12 +1,13 @@
-import Viewer from './Viewer';
+import Viewer from './Component/Viewer';
 import Page from './Page';
-import Thumbnail from './Thumbnail';
-import Counter from './Counter';
+import Thumbnail from './Component/Thumbnail';
+import Counter from './Component/Counter';
 import PostRequests from './HttpRequests/PostRequests';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import CommentBlock from './CommentBlock';
+import CommentBlock from './Component/CommentBlock';
 import AuthService from './Authentification/AuthService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function Post(props) {
 	const { postId } = props;

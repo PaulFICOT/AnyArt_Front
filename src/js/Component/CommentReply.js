@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import PostRequests from './HttpRequests/PostRequests';
-import AuthService from './Authentification/AuthService';
+import PostRequests from '../HttpRequests/PostRequests';
+import AuthService from '../Authentification/AuthService';
 
 export default function CommentReply(props) {
 	const { postId, replyTo, updateTrigger } = props;
