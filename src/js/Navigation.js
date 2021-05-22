@@ -28,9 +28,9 @@ export default function Navigation() {
 							<input
 								className="uk-input uk-form-width-small"
 								type="text"
-								placeholder="Input"
+								placeholder="Type here..."
 							/>
-							<button className="uk-button uk-button-default">Button</button>
+							<button className="uk-button uk-button-default">Search</button>
 						</form>
 					</li>
 					<AuthComponent login="true">
