@@ -39,6 +39,7 @@ export default function Upload() {
 			category: categoryInput.current.value,
 			crea_date: getSQLDate(),
 			user_id: loggedUser.user_id,
+			tags: tags,
 		}).then(response => (postId = response.post_id));
 		ImageRequests.upload(
 			{ user_id: loggedUser.user_id, post_id: postId },
