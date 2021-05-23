@@ -24,19 +24,33 @@ export default function Profil() {
         setOwnPage(current_user.user_id === id);
 
         if (current_user.user_id !== id) {
-
-        }
+            httpClient.get(`users/${id}/${current_user.user_id}`).then(data => {
+                setFollowed(data.is_followed);
+            });
+        } else setFollowed(false);
 
         httpClient.get(`users/profile/${id}`).then(data => {
             setUser(data.user ?? []);
-        })
+        });
 
         httpClient.get(`posts/thumbnails/${id}`).then(data => {
             setPosts(data.thumbnails ?? []);
-        })
+        });
+
     };
 
-    useEffect(getData, [setPosts, setUser, id, isLogin])
+    useEffect(getData, [setPosts, setUser, setFollowed, id, isLogin, isFollowed])
+
+    function setFollow() {
+        const current_user = AuthService.getCurrentUser() ?? {user_id: -1};
+        const httpClient = new HttpClient();
+
+        httpClient.post(`users/${id}/${current_user.user_id}`, { mode: (isFollowed) ? 'remove' : 'add' })
+        .then(response => response.json())
+        .then(data => {
+            setFollowed(data.is_followed);
+        });
+    }
 
 	return (
         <>
@@ -57,7 +71,7 @@ export default function Profil() {
                 </div>
                 {isLogin && <div className="icons uk-margin-medium-right uk-flex uk-flex-middle">
                     {user.donation_link && <a target="_blank" rel="noreferrer" className="icons_clickable" href={`https://paypal.me/${user.donation_link}`}><i className="fas fa-gift uk-margin-right"></i></a>}
-                    {!isOwnPage && <div><i className="fas fa-user-plus uk-margin-right"></i></div>}
+                    {!isOwnPage && <button className="uk-button uk-button-link icons_clickable" key={isFollowed ? 'minus' : 'plus'} onClick={ () => setFollow() } style={{textDecoration: 'none'}}><i className={'fas fa-user-' + (isFollowed ? 'minus' : 'plus') + ' uk-margin-right'} onClick={ () => setFollow() }></i></button>}
                     <a className="icons_clickable" href={`mailto:${user.mail}`}><i className="fas fa-envelope uk-margin-right"></i></a>
                     <div>
                         {isOwnPage && <div><i className="fas fa-cog"></i></div>}
