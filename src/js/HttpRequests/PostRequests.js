@@ -35,5 +35,9 @@ export default class PostRequests {
 		return httpClient.get(`/${id}/opinion`);
 	}
 
-	static createPost(parameters, files) {}
+	static createPost(parameters) {
+		return httpClient
+			.post('/new', parameters)
+			.then(response => response.json());
+	}
 }

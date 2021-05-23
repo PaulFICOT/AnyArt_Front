@@ -5,15 +5,19 @@ import { useState, useEffect, useRef } from 'react';
 import UploadArea from './Component/UploadArea';
 import CategoriesRequests from './HttpRequests/CategoriesRequests';
 import PostRequests from './HttpRequests/PostRequests';
+import AuthService from './Authentification/AuthService';
+import ImageRequests from './HttpRequests/ImageRequest';
 
 export default function Upload() {
 	const [tags, setTags] = useState([]);
 	const [imgs, setImgs] = useState([]);
 	const [categories, setCategories] = useState([]);
+	const [files, setFiles] = useState([]);
 
 	const titleInput = useRef(null);
 	const descInput = useRef(null);
 	const categoryInput = useRef(null);
+	const loggedUser = AuthService.getCurrentUser();
 
 	useEffect(() => {
 		CategoriesRequests.getAll().then(response => {
@@ -26,17 +30,20 @@ export default function Upload() {
 		return date.toISOString().substr(0, 19).replace('T', ' ');
 	}
 
-	function handleSubmit(event) {
-		PostRequests.createPost(
-			{
-				title: titleInput.current.value,
-				desc: descInput.current.value,
-				category: categoryInput.current.value,
-				crea_date: getSQLDate(),
-				tags: tags,
-			},
-			imgs
-		);
+	async function handleSubmit(event) {
+		event.preventDefault();
+		let postId = -1;
+		await PostRequests.createPost({
+			title: titleInput.current.value,
+			desc: descInput.current.value,
+			category: categoryInput.current.value,
+			crea_date: getSQLDate(),
+			user_id: loggedUser.user_id,
+		}).then(response => (postId = response.post_id));
+		ImageRequests.upload(
+			{ user_id: loggedUser.user_id, post_id: postId },
+			files
+		).then(response => response);
 	}
 
 	return (
@@ -48,13 +55,18 @@ export default function Upload() {
 				>
 					<Viewer pictures={imgs} />
 					<div className="uk-margin-top">
-						<UploadArea imgs={imgs} setImgs={setImgs} />
+						<UploadArea
+							imgs={imgs}
+							setImgs={setImgs}
+							files={files}
+							setFiles={setFiles}
+						/>
 					</div>
 				</div>
 				<div className="uk-width-1-2@l uk-width-1-1@s uk-light">
 					<div className="uk-card uk-card-secondary uk-card-body">
 						<h2>Upload a new creation</h2>
-						<form className="uk-form" action={handleSubmit}>
+						<form className="uk-form" onSubmit={handleSubmit}>
 							<div className="uk-grid uk-child-width-1-1" data-uk-grid>
 								<div>
 									<input

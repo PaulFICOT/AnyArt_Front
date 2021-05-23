@@ -3,17 +3,20 @@ import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function UploadArea(props) {
-	const { imgs, setImgs } = props;
+	const { imgs, setImgs, files, setFiles } = props;
 	const imageSelector = useRef(null);
 
-	function loadFiles(files) {
-		const t = [];
-		for (let file of files) {
-			t.push(URL.createObjectURL(file));
+	function loadFiles(filesObject) {
+		let tmpImgs = [];
+		let tmpFiles = [];
+		for (let file of filesObject) {
+			tmpImgs.push(URL.createObjectURL(file));
+			tmpFiles.push(file);
 		}
-		console.log(imgs);
-		t.concat(imgs);
-		setImgs(t);
+		tmpImgs = tmpImgs.concat(imgs);
+		tmpFiles = tmpFiles.concat(files);
+		setImgs(tmpImgs);
+		setFiles(tmpFiles);
 	}
 
 	function handleUpload(event) {

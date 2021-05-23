@@ -3,11 +3,10 @@ const { REACT_APP_BACKEND_DOMAIN, REACT_APP_BACKEND_PORT } = process.env;
 export default class HttpClient {
 	#baseUrl;
 
-	constructor(route = '') {
-		this.#baseUrl = `http://${REACT_APP_BACKEND_DOMAIN}:${REACT_APP_BACKEND_PORT}/api`;
-		if (route !== '') {
-			this.#baseUrl += `/${route}`;
-		}
+	constructor(route = '', useApi = true) {
+		this.#baseUrl = `http://${REACT_APP_BACKEND_DOMAIN}:${REACT_APP_BACKEND_PORT}${
+			useApi ? '/api' : ''
+		}${route !== '' ? `/${route}` : ''}`;
 	}
 
 	buildUrl(route) {
@@ -32,13 +31,17 @@ export default class HttpClient {
 		});
 	}
 
-	upload(route, formData) {
+	upload(route, params, files) {
+		console.log(files);
 		const url = new URL(this.buildUrl(route));
+		const formData = new FormData();
+		formData.append('data', JSON.stringify(params));
+		files.forEach((x, i) => formData.append(i, x));
+
 		return fetch(url.toString(), {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
-				'Content-Type': 'application/json',
 			},
 			body: formData,
 		});
