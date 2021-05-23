@@ -1,10 +1,17 @@
 @import './global.css';
 
+.uk-item-text {
+  font-size: 14px;
+  color: #0E1025;
+  margin-top: 8px;
+  margin-right: 10px;
+}
+
 .uk-switch {
     position: relative;
     display: inline-block;
-    height: 24px;
-    width: 40px;
+    height: 16px;
+    width: 28px;
   }
   
   /* Hide default HTML checkbox */
@@ -30,8 +37,8 @@
     content: '';
     background-color: #fff;
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 12px;
+    height: 12px;
     left: 2px;
     bottom: 2px;
     border-radius: 50%;
@@ -44,5 +51,5 @@
   }
   /* Pointer active animation */
   input:checked + .uk-switch-slider:before {
-    transform: translateX(16px);
+    transform: translateX(12px);
   }
