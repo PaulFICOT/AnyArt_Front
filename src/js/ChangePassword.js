@@ -85,7 +85,7 @@ export default function ChangePassword() {
                 <button className="uk-modal-close-default" type="button" data-uk-close></button>
                 <form id="password_form" onSubmit={(event) => {handleSubmit(event)}}>
                     <div className="uk-modal-header">
-                        <h2 className="uk-modal-title">Change information</h2>
+                        <h2 className="uk-modal-title">Change password</h2>
                     </div>
                     <div className="uk-modal-body">
                         <label htmlFor="password">Old password</label>

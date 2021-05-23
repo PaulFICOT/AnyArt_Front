@@ -8,6 +8,7 @@ import HttpClient from './HttpRequests/HttpClient';
 import AuthContext from './Authentification/AuthContext';
 import ChangeInformation from './ChangeInformation';
 import ChangePassword from './ChangePassword';
+import ChangeProfilePicture from './ChangeProfilePicture';
 import 'src/css/userpage.css';
 
 export default function Profil() {
@@ -82,7 +83,8 @@ export default function Profil() {
                             <ChangeInformation setUser={setUser} user={user} />
                             <li><a href="#change_password" uk-toggle="target: #change_password">Change the password</a></li>
                             <ChangePassword />
-                            <li><a href="#signup" uk-toggle="target: #signup">Change profile picture</a></li>
+                            <li><a href="#change_picture" uk-toggle="target: #change_picture">Change profile picture</a></li>
+                            <ChangeProfilePicture />
                         </ul>
                     </div>
                 </div>}
