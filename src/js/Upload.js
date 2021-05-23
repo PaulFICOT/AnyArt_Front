@@ -7,6 +7,7 @@ import CategoriesRequests from './HttpRequests/CategoriesRequests';
 import PostRequests from './HttpRequests/PostRequests';
 import AuthService from './Authentification/AuthService';
 import ImageRequests from './HttpRequests/ImageRequest';
+import UIkit from 'uikit';
 
 export default function Upload() {
 	const [tags, setTags] = useState([]);
@@ -30,8 +31,49 @@ export default function Upload() {
 		return date.toISOString().substr(0, 19).replace('T', ' ');
 	}
 
+	function checkForm() {
+		let errors_messages = [];
+		if (files.length === 0) {
+			errors_messages.push('No images uploaded');
+		}
+		document.querySelectorAll('#upload-form input').forEach(x => {
+			if (!x.value) {
+				errors_messages.push(x.name + ' is missing.');
+			}
+		});
+
+		document.querySelectorAll('#upload-form textarea').forEach(x => {
+			if (!x.value) {
+				errors_messages.push(x.name + ' is missing.');
+			}
+		});
+
+		document.querySelectorAll('#upload-form select').forEach(x => {
+			if (x.value === '-1') {
+				errors_messages.push(x.name + ' is missing.');
+			}
+		});
+
+		let html_return =
+			'<ul>' + errors_messages.map(x => `<li>${x}</li>`).join('') + '</ul>';
+
+		UIkit.notification({
+			message: html_return,
+			status: 'danger',
+			pos: 'top-right',
+			timeout: 5000,
+		});
+
+		return errors_messages.length !== 0;
+	}
+
 	async function handleSubmit(event) {
 		event.preventDefault();
+
+		if (!checkForm()) {
+			return;
+		}
+
 		let postId = -1;
 		await PostRequests.createPost({
 			title: titleInput.current.value,
@@ -67,11 +109,12 @@ export default function Upload() {
 				<div className="uk-width-1-2@l uk-width-1-1@s uk-light">
 					<div className="uk-card uk-card-secondary uk-card-body">
 						<h2>Upload a new creation</h2>
-						<form className="uk-form" onSubmit={handleSubmit}>
+						<form id="upload-form" className="uk-form" onSubmit={handleSubmit}>
 							<div className="uk-grid uk-child-width-1-1" data-uk-grid>
 								<div>
 									<input
 										className="uk-input"
+										name="title"
 										placeholder="Title"
 										ref={titleInput}
 									/>
@@ -80,12 +123,18 @@ export default function Upload() {
 									<textarea
 										className="uk-textarea"
 										placeholder="Description"
+										name="description"
 										ref={descInput}
 									/>
 								</div>
 								<div>
-									<select className="uk-select" ref={categoryInput}>
-										<option value="" disabled defaultValue>
+									<select
+										className="uk-select"
+										ref={categoryInput}
+										name="category"
+										defaultValue="-1"
+									>
+										<option value="-1" disabled>
 											---Category---
 										</option>
 										{categories.map((x, i) => (
