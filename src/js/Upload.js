@@ -57,12 +57,14 @@ export default function Upload() {
 		let html_return =
 			'<ul>' + errors_messages.map(x => `<li>${x}</li>`).join('') + '</ul>';
 
-		UIkit.notification({
-			message: html_return,
-			status: 'danger',
-			pos: 'top-right',
-			timeout: 5000,
-		});
+		if (errors_messages.length > 0) {
+			UIkit.notification({
+				message: html_return,
+				status: 'danger',
+				pos: 'top-right',
+				timeout: 5000,
+			});
+		}
 
 		return errors_messages.length === 0;
 	}
