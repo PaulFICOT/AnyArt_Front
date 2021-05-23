@@ -36,7 +36,7 @@ export default function Navigation() {
 					</li>
 					<AuthComponent login="true">
 						<li className="uk-navbar-item">
-							<Link to="/add" style={{ textDecoration: 'none' }}>
+							<Link to="/upload" style={{ textDecoration: 'none' }}>
 								<button className="uk-button uk-button-default">Post</button>
 							</Link>
 						</li>

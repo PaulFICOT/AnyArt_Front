@@ -5,7 +5,7 @@ import Carousel from './Carousel';
 export default function Viewer(props) {
 	const { pictures } = props;
 
-	useEffect(() => setMain('https://source.unsplash.com/' + pictures[0]));
+	useEffect(() => setMain(pictures[0]));
 
 	const main = useRef(null);
 
