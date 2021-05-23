@@ -1,6 +1,6 @@
 import 'src/css/Navigation.css';
 import { Link } from 'react-router-dom';
-import Thumbnail from './Thumbnail';
+import Thumbnail from './Component/Thumbnail';
 import Logo from './Logo';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
@@ -8,6 +8,7 @@ import LogOut from './LogOut';
 import AuthComponent from './Authentification/AuthComponent';
 import AuthService from './Authentification/AuthService';
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function Navigation() {
 	const current_user_id = (AuthService.getCurrentUser()) ? AuthService.getCurrentUser().user_id : -1;
@@ -37,12 +38,14 @@ export default function Navigation() {
 					</li>
 					<AuthComponent login="true">
 						<li className="uk-navbar-item">
-							<Link to="/add" style={{ textDecoration: 'none' }}>
+							<Link to="/upload" style={{ textDecoration: 'none' }}>
 								<button className="uk-button uk-button-default">Post</button>
 							</Link>
 						</li>
 						<li className="uk-navbar-item">
-							<div className="bell"><i className="fas fa-bell"></i></div>
+							<div className="bell">
+								<FontAwesomeIcon icon="bell" />
+							</div>
 						</li>
 					</AuthComponent>
 					<li>
@@ -56,13 +59,25 @@ export default function Navigation() {
 												Profil
 											</Link>
 										</li>
-										<li><a href="#logout" uk-toggle="target: #logout">Logout</a></li>
+										<li>
+											<a href="#logout" uk-toggle="target: #logout">
+												Logout
+											</a>
+										</li>
 										<LogOut />
 									</AuthComponent>
 									<AuthComponent login="false">
-										<li><a href="#signin" uk-toggle="target: #signin">Login</a></li>
+										<li>
+											<a href="#signin" uk-toggle="target: #signin">
+												Login
+											</a>
+										</li>
 										<SignIn />
-										<li><a href="#signup" uk-toggle="target: #signup">Register</a></li>
+										<li>
+											<a href="#signup" uk-toggle="target: #signup">
+												Register
+											</a>
+										</li>
 										<SignUp />
 									</AuthComponent>
 								</ul>
