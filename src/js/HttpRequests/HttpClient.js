@@ -34,7 +34,6 @@ export default class HttpClient {
 	}
 
 	upload(route, params, files) {
-		console.log(files);
 		const url = new URL(this.buildUrl(route));
 		const formData = new FormData();
 		formData.append('data', JSON.stringify(params));
