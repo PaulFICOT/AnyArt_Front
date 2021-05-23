@@ -64,7 +64,7 @@ export default function Upload() {
 			timeout: 5000,
 		});
 
-		return errors_messages.length !== 0;
+		return errors_messages.length === 0;
 	}
 
 	async function handleSubmit(event) {
