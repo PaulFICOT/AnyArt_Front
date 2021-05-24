@@ -21,6 +21,7 @@ export default function Home(props) {
 		CategoriesRequests.getAll().then(data => setCategories(data));
 
 		if(isLogged) {
+			let current_user = AuthService.getCurrentUser();
 			PostRequests.getThumbnailsDiscover(current_user.user_id)
 				.then(data => setPosts(data));
 		} else {
@@ -35,7 +36,7 @@ export default function Home(props) {
 		setToggles(toggles_tmp);
 	}
 
-	useEffect(fetchData, [setPosts, setCategories, isLogged, current_user]);
+	useEffect(fetchData, [setPosts, setCategories, isLogged]);
 
 	return (
 		<Page>
