@@ -38,7 +38,7 @@ export default function Home(props) {
 	function changePostsBySearchBar() {
 		const search_text = document.getElementById("search_input").value;
 		PostRequests.getThumbnailsBySearch({search_text: search_text}).then(response => {
-			console.log(response);
+			setPosts(response);
 		})
 	}
 
