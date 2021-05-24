@@ -6,6 +6,9 @@ import Upload from './Upload';
 import AuthContext from './Authentification/AuthContext';
 import { useContext } from 'react';
 
+/**
+ * Component that defines all routes with their component to display
+ */
 export default function Navigator() {
 	const loginContext = useContext(AuthContext);
 	return (

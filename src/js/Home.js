@@ -5,12 +5,15 @@ import AuthComponent from './Authentification/AuthComponent';
 import AuthService from './Authentification/AuthService';
 import AuthContext from './Authentification/AuthContext';
 import CategoriesRequests from './HttpRequests/CategoriesRequests'
-import Toggle from './Toggle'
+import Toggle from './Component/Toggle'
 import PostList from './PostList';
 import 'src/css/home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function Home(props) {
+/**
+ * Component that shows the home page with all posts and filters
+ */
+export default function Home() {
 	const [posts, setPosts] = useState([]);
 	const [categories, setCategories] = useState([]);
 	let isLogged = useContext(AuthContext).isLogin;
@@ -18,6 +21,11 @@ export default function Home(props) {
 	const [toggles, setToggles] = useState({});
 	const [typePosts, setTypePosts] = useState('unlogged');
 
+	/**
+	 * Get categories for the filters
+	 * Get the discover posts thumbnail if the user is logged in
+	 * otherwise get the unlogged posts thumbnail
+	 */
 	function fetchData() {
 		CategoriesRequests.getAll().then(data => setCategories(data));
 
@@ -32,9 +40,13 @@ export default function Home(props) {
 			setTypePosts('unlogged');
 		}
 
+		// Add listener for the search bar button
 		document.getElementById("search_button").onclick = function () { changePostsBySearchBar() }
 	}
 
+	/**
+	 * Change post with the value of the search bar
+	 */
 	function changePostsBySearchBar() {
 		const search_text = document.getElementById("search_input").value;
 		PostRequests.getThumbnailsBySearch({search_text: search_text}).then(response => {
@@ -42,6 +54,10 @@ export default function Home(props) {
 		})
 	}
 
+	/**
+	 * Change posts with the type of posts requested
+	 * @param {string} type The kind of posts
+	 */
 	function changeTypePosts(type) {
 		if (type === 'discover') {
 			PostRequests.getThumbnailsDiscover(current_user.user_id, getFilters())
@@ -53,12 +69,21 @@ export default function Home(props) {
 		setTypePosts(type);
 	}
 
+	/**
+	 * Change the state of a toggle
+	 * @param {string} id The id of a toggle
+	 * @param {boolean} isToggled The state to set on the toggle
+	 */
 	function setToggle(id, isToggled) {
 		let toggles_tmp = JSON.parse(JSON.stringify(toggles));
 		toggles_tmp[id] = isToggled;
 		setToggles(toggles_tmp);
 	}
 
+	/**
+	 * Get id of each activated toggle
+	 * @returns The array of toggle ids
+	 */
 	function getFilters() {
 		let filters = {filters: []};
 		Object.entries(toggles).forEach(([key, value]) => {
@@ -69,6 +94,9 @@ export default function Home(props) {
 		return filters;
 	}
 
+	/**
+	 * Change posts with the filters
+	 */
 	function updatePostsByFilters() {
 		let filters = {filters: []};
 		Object.entries(toggles).forEach(([key, value]) => {
