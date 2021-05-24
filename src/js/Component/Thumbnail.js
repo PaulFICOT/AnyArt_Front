@@ -11,12 +11,13 @@ export default function Thumbnail(props) {
 			onClick={
 				props.handleClick ? () => props.handleClick(props.original) : null
 			}
-			src={props.src}
+			src={(props.src ? props.src + (props.version ? `?v=${props.version}` : '') : null)}
 			style={{
 				width: !props.rounded ? '100%' : '',
 				objectFit: 'cover',
 			}}
 			alt={props.src}
+			ref={props.reference ?? null}
 			width={width}
 			height={height}
 		/>
