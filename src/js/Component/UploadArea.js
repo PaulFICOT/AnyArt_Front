@@ -10,7 +10,11 @@ export default function UploadArea(props) {
 		let tmpImgs = [];
 		let tmpFiles = [];
 		for (let file of filesObject) {
-			tmpImgs.push(URL.createObjectURL(file));
+			const img = URL.createObjectURL(file);
+			tmpImgs.push({
+				picture_id: img,
+				thumb_of: img,
+			});
 			tmpFiles.push(file);
 		}
 		tmpImgs = tmpImgs.concat(imgs);
@@ -25,7 +29,6 @@ export default function UploadArea(props) {
 
 	function handleDrop(event) {
 		event.preventDefault();
-
 		if (event.dataTransfer.items) {
 			const files = [];
 			for (let item of event.dataTransfer.items) {
