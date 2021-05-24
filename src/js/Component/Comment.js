@@ -3,6 +3,7 @@ import CommentReply from './CommentReply';
 import { useState } from 'react';
 import Thumbnail from './Thumbnail';
 import AuthService from '../Authentification/AuthService';
+import HttpClient from '../HttpRequests/HttpClient';
 
 export default function Comment(props) {
 	const { id, date, userId, username, userPic, content } = props.comment;
@@ -39,7 +40,16 @@ export default function Comment(props) {
 					<div className="uk-grid-medium uk-flex-middle" data-uk-grid>
 						<div className="uk-comment-avatar">
 							<Link to={'/user/' + userId}>
-								<Thumbnail src={userPic} width="60px" height="60px" rounded />
+								<Thumbnail
+									src={
+										userPic != null
+											? HttpClient.imageUrl(userPic)
+											: '/images/user_avatar.png'
+									}
+									width="60px"
+									height="60px"
+									rounded
+								/>
 							</Link>
 						</div>
 						<div className="uk-width-expand">
