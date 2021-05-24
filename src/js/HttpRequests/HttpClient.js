@@ -27,7 +27,7 @@ export default class HttpClient {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
-				'Authorization': (secured) ? AuthService.getCurrentToken() : '',
+				Authorization: secured ? AuthService.getCurrentToken() : '',
 			},
 			body: JSON.stringify(params),
 		});
@@ -45,6 +45,16 @@ export default class HttpClient {
 				Accept: 'application/json',
 			},
 			body: formData,
+		});
+	}
+
+	delete(route) {
+		const url = new URL(this.buildUrl(route));
+		return fetch(url.toString(), {
+			method: 'DELETE',
+			headers: {
+				Accept: 'application/json',
+			},
 		});
 	}
 
