@@ -31,7 +31,10 @@ export default function Navigation() {
 		const current_user = AuthService.getCurrentUser();
 		httpClient.get(`notifications/${current_user.user_id}`).then(response => {
 			if (mounted) {
-				setNotifs(response.notifications);
+				const notifications_sort = response.notifications.sort(
+					(a, b) => new Date(b.crea_date) - new Date(a.crea_date)
+				);
+				setNotifs(notifications_sort);
 				let list_notifs_not_seen = [];
 				response.notifications.forEach(notif => {
 					if (notif.is_read === "0") {
