@@ -1,10 +1,10 @@
 import React, { useRef, useContext } from 'react';
-import ModalPortal from './ModalPortal';
+import ModalPortal from '../ModalPortal';
 import 'uikit/dist/css/uikit.min.css'
 import UIkit from 'uikit';
-import AuthContext from './Authentification/AuthContext';
-import AuthService from './Authentification/AuthService';
-import HttpClient from './HttpRequests/HttpClient';
+import AuthContext from '../../Authentification/AuthContext';
+import AuthService from '../../Authentification/AuthService';
+import HttpClient from '../../HttpRequests/HttpClient';
 
 export default function ChangePassword() {
     const oldpasswordInput = useRef();
