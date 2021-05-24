@@ -1,16 +1,23 @@
 import React, { useRef } from 'react';
 import 'src/css/TagInput.css';
 
+/**
+ * Component that shows all tags for the upload post
+ */
 export default function TagInput(props) {
 	const tagContainer = useRef(null);
 	const { tags, setTags, placeholder } = props;
 
+	// Allow only alphabetic characters
 	function preventUnWantedChar(event) {
 		if (event.key.match(/^[A-Za-z ]$/g) == null) {
 			event.preventDefault();
 		}
 	}
 
+	/**
+	 * Parse the tagContainer to show all tags
+	 */
 	function parseTags() {
 		let words = tagContainer.current.textContent;
 		const t = words.split(/\s/g);

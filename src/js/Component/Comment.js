@@ -5,30 +5,30 @@ import Thumbnail from './Thumbnail';
 import HttpClient from '../HttpRequests/HttpClient';
 import AuthContext from '../Authentification/AuthContext';
 
+/**
+ * Component that shows a comment for a post
+ */
 export default function Comment(props) {
 	const { id, date, userId, username, userPic, content } = props.comment;
 	const postId = props.postId;
 	const updateTrigger = props.updateTrigger;
 
 	const utcDate = new Date(date);
-	const realDate = new Date(
-		Date.UTC(
-			utcDate.getFullYear(),
-			utcDate.getMonth(),
-			utcDate.getDate(),
-			utcDate.getHours(),
-			utcDate.getMinutes()
-		)
-	).toLocaleString();
 
 	const [reply, setReply] = useState(false);
 	const isLogin = useContext(AuthContext).isLogin;
 
+	/**
+	 * Hide the form to respond when the user has responded
+	 */
 	function customUpdateTrigger() {
 		updateTrigger();
 		switchReply();
 	}
 
+	/**
+	 * Show or hide form to reply to the comment
+	 */
 	function switchReply() {
 		setReply(!reply);
 	}
@@ -59,7 +59,7 @@ export default function Comment(props) {
 								</Link>
 							</h4>
 							<ul className="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-								<li>{new Date(realDate).toUTCString()}</li>
+								<li>{utcDate.toUTCString()}</li>
 								{isLogin ? (
 									<li>
 										<button

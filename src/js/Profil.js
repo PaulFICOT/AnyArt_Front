@@ -1,9 +1,9 @@
 import Thumbnail from './Component/Thumbnail';
-import PostList from './PostList';
+import PostList from './Component/PostList';
 import AuthService from './Authentification/AuthService';
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import Page from './Page';
+import Page from './Component/Page';
 import HttpClient from './HttpRequests/HttpClient';
 import AuthContext from './Authentification/AuthContext';
 import ChangeInformation from './Modal/userpage/ChangeInformation';

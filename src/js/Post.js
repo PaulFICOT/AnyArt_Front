@@ -1,5 +1,5 @@
 import Viewer from './Component/Viewer';
-import Page from './Page';
+import Page from './Component/Page';
 import Thumbnail from './Component/Thumbnail';
 import Counter from './Component/Counter';
 import PostRequests from './HttpRequests/PostRequests';
@@ -11,6 +11,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HttpClient from './HttpRequests/HttpClient';
 import AuthContext from './Authentification/AuthContext';
 
+/**
+ * Component that shows a post with all information
+ */
 export default function Post() {
 	const { postId } = useParams();
 
@@ -39,11 +42,17 @@ export default function Post() {
 	const loginContext = useContext(AuthContext);
 	const history = useHistory();
 
+	/**
+	 * Make date for SQL format
+	 */
 	function getSQLDate() {
 		const date = new Date();
 		return date.toISOString().substr(0, 19).replace('T', ' ');
 	}
 
+	/**
+	 * Get all information of this post
+	 */
 	useEffect(() => {
 		PostRequests.getById(postId, { user_id: loggedUser.user_id }).then(
 			result => {
@@ -113,6 +122,9 @@ export default function Post() {
 		});
 	}, [postId, loggedUser.user_id]);
 
+	/**
+	 * Refresh the comments of the post
+	 */
 	function updateComments() {
 		PostRequests.getCommentsByPostId(postId).then(response => {
 			const comments = response.map(x => {
@@ -134,6 +146,9 @@ export default function Post() {
 		});
 	}
 
+	/**
+	 * Like the post
+	 */
 	async function likePost() {
 		await PostRequests.setOpinion(postId, {
 			action: post.isDisliked ? 'switch' : 'like',
@@ -147,6 +162,9 @@ export default function Post() {
 		updateOpinions();
 	}
 
+	/**
+	 * Dislike the post
+	 */
 	async function dislikePost() {
 		await PostRequests.setOpinion(postId, {
 			action: post.isLiked ? 'switch' : 'dislike',
@@ -160,6 +178,9 @@ export default function Post() {
 		updateOpinions();
 	}
 
+	/**
+	 * Remove the like and the dislike
+	 */
 	async function cancelOpinion() {
 		await PostRequests.setOpinion(postId, {
 			action: 'remove',
@@ -172,6 +193,9 @@ export default function Post() {
 		updateOpinions();
 	}
 
+	/**
+	 * Update the opinion (like / dislike)
+	 */
 	function updateOpinions() {
 		PostRequests.getOpinion(postId).then(response => {
 			setOpinions({
@@ -181,6 +205,9 @@ export default function Post() {
 		});
 	}
 
+	/**
+	 * Remove the post
+	 */
 	function rmPost() {
 		if (!loginContext.isLogin) {
 			return;

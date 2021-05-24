@@ -1,5 +1,8 @@
 import Thumbnail from './Thumbnail';
 
+/**
+ * Component that shows all images for a post
+ */
 export default function Carousel(props) {
 	const { images, setMainPic } = props;
 

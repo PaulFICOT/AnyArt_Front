@@ -1,5 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+/**
+ * Component that shows a counter with a icon
+ */
 export default function Counter(props) {
 	const { icon, count, solid, onClickCallback } = props;
 	const style = {
