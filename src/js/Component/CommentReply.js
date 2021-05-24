@@ -40,7 +40,7 @@ export default function CommentReply(props) {
 						ref={contentInput}
 					/>
 					<input
-						className="uk-button uk-button-small uk-align-right"
+						className="uk-button uk-button-small uk-button-secondary uk-align-right"
 						type="submit"
 						value="Reply"
 					/>

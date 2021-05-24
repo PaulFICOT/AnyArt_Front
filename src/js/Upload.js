@@ -89,13 +89,22 @@ export default function Upload() {
 			crea_date: getSQLDate(),
 			user_id: loggedUser.user_id,
 			tags: tags,
-		}).then(response => (postId = response.post_id));
+		})
+			.then(response => (response.ok ? response.json() : { post_id: -1 }))
+			.then(response => {
+				postId = response.post_id;
+			});
+		if (postId === -1) {
+			return;
+		}
 		ImageRequests.upload(
 			{ user_id: loggedUser.user_id, post_id: postId },
 			files
 		).then(response => {
 			if (response.ok) {
 				goToPost(postId);
+			} else {
+				PostRequests.rmPost(postId);
 			}
 		});
 	}

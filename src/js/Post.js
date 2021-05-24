@@ -3,12 +3,13 @@ import Page from './Page';
 import Thumbnail from './Component/Thumbnail';
 import Counter from './Component/Counter';
 import PostRequests from './HttpRequests/PostRequests';
-import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import CommentBlock from './Component/CommentBlock';
 import AuthService from './Authentification/AuthService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HttpClient from './HttpRequests/HttpClient';
+import AuthContext from './Authentification/AuthContext';
 
 export default function Post() {
 	const { postId } = useParams();
@@ -35,6 +36,8 @@ export default function Post() {
 	const [tags, setTags] = useState([]);
 	const [comments, setComments] = useState([]);
 	const loggedUser = AuthService.getCurrentUser() ?? { user_id: -1 };
+	const loginContext = useContext(AuthContext);
+	const history = useHistory();
 
 	function getSQLDate() {
 		const date = new Date();
@@ -97,7 +100,7 @@ export default function Post() {
 					date: x.crea_date,
 					userId: x.user_id,
 					username: x.username,
-					userPic: x.url,
+					userPic: x.picture_id,
 					replyTo: x.reply_to,
 					content: x.content,
 					responses: [],
@@ -178,6 +181,14 @@ export default function Post() {
 		});
 	}
 
+	function rmPost() {
+		if (!loginContext.isLogin) {
+			return;
+		}
+		PostRequests.rmPost(postId);
+		history.push('/');
+	}
+
 	return (
 		<Page>
 			<div data-uk-grid>
@@ -189,7 +200,19 @@ export default function Post() {
 				</div>
 				<div className="uk-width-1-2@l uk-width-1-1@s uk-light">
 					<div className="uk-card uk-card-secondary uk-card-body">
-						<h2 className="uk-margin-remove">{post.title}</h2>
+						<h2 className="uk-margin-remove">
+							{post.title}
+							{post.userId === loggedUser.user_id ? (
+								<button
+									className="uk-align-right uk-button uk-button-danger"
+									onClick={rmPost}
+								>
+									Delete
+								</button>
+							) : (
+								''
+							)}
+						</h2>
 						<Link to={'/category/' + category.id}>{category.name}</Link>
 						<div data-uk-grid>
 							<div className="uk-width-1-5@l uk-width-1-6@s">
