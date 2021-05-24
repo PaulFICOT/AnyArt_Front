@@ -133,7 +133,7 @@ export default function Post() {
 
 	async function likePost() {
 		await PostRequests.setOpinion(postId, {
-			action: 'like',
+			action: post.isDisliked ? 'switch' : 'like',
 			user_id: loggedUser.user_id,
 			crea_date: getSQLDate(),
 		});
@@ -146,7 +146,7 @@ export default function Post() {
 
 	async function dislikePost() {
 		await PostRequests.setOpinion(postId, {
-			action: 'dislike',
+			action: post.isLiked ? 'switch' : 'like',
 			user_id: loggedUser.user_id,
 			crea_date: getSQLDate(),
 		});
