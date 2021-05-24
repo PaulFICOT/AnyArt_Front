@@ -6,23 +6,63 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import LogOut from './LogOut';
 import AuthComponent from './Authentification/AuthComponent';
-import AuthService from './Authentification/AuthService';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import Notification from './Component/Notification';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HttpClient from './HttpRequests/HttpClient';
 import AuthContext from './Authentification/AuthContext';
+import AuthService from './Authentification/AuthService';
 
 export default function Navigation() {
 	const [user, setUser] = useState([]);
 	const contextAuth = useContext(AuthContext);
+	const [notifs, setNotifs] = useState([]);
+	const [notifs_not_seen, setNotifsNotSeen] = useState([]);
 
-	function getDataUser() {
-		if (contextAuth.isLogin) {
-			setUser(AuthService.getCurrentUser());
+	function getData() {
+		if (!contextAuth.isLogin) {
+			return;
 		}
-    }
 
-	useEffect(getDataUser, [setUser, contextAuth.refreshNav, contextAuth.isLogin]);
+		setUser(AuthService.getCurrentUser());
+
+		let mounted = true;
+		const httpClient = new HttpClient();
+		const current_user = AuthService.getCurrentUser();
+		httpClient.get(`notifications/${current_user.user_id}`).then(response => {
+			if (mounted) {
+				const notifications_sort = response.notifications.sort(
+					(a, b) => new Date(b.crea_date) - new Date(a.crea_date)
+				);
+				setNotifs(notifications_sort);
+				let list_notifs_not_seen = [];
+				response.notifications.forEach(notif => {
+					if (notif.is_read === "0") {
+						list_notifs_not_seen.push(notif);
+					}
+				});
+				setNotifsNotSeen(list_notifs_not_seen);
+			}
+		});
+		return () => (mounted = false);
+	}
+
+	useEffect(getData, [setNotifs, setUser, contextAuth.isLogin, contextAuth.refreshNav]);
+
+	function removeNotifsBadge() {
+		if (notifs_not_seen.length === 0) {
+			return;
+		}
+
+		const httpClient = new HttpClient();
+		httpClient.post('notifications', {
+			notification_ids: notifs_not_seen.map(notif => notif.id_notification),
+		}).then(response => {
+			if (response.ok) {
+				setNotifsNotSeen([]);
+			}
+		});
+	}
 
 	return (
 		<nav className="navigation" data-uk-navbar>
@@ -55,13 +95,25 @@ export default function Navigation() {
 							</Link>
 						</li>
 						<li className="uk-navbar-item">
-							<div className="bell">
+							<div className="bell uk-inline" onClick={() => removeNotifsBadge()}>
 								<FontAwesomeIcon icon="bell" />
+								<div className="uk-overlay uk-position-bottom-left">
+									{notifs_not_seen.length !== 0 && <span className="uk-badge uk-label-danger">{notifs_not_seen.length}</span>}
+								</div>
+							</div>
+							<div className="dropdown-notifs" data-uk-dropdown="mode:click">
+								<ul className="uk-nav uk-dropdown-nav">
+									{notifs.map(notif => (
+										<li key={notif.id_notification}>
+											<Notification notif={notif} />
+										</li>
+									))}
+								</ul>
 							</div>
 						</li>
 					</AuthComponent>
 					<li>
-						<div className="uk-width-small avatar uk-margin-small-right uk-logo">
+						<div className="uk-width-small avatar uk-logo">
 							<Thumbnail
 								src={(user.profile_pic && contextAuth.isLogin) ? HttpClient.imageUrl(user.profile_pic) : '/images/user_avatar.png'}
 								rounded
