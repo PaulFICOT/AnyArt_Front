@@ -7,6 +7,9 @@ import AuthService from '../../Authentification/AuthService';
 import CountriesRequest from '../../HttpRequests/CountriesRequests';
 import HttpClient from '../../HttpRequests/HttpClient';
 
+/**
+ * Component that shows a modal to change user information
+ */
 export default function ChangeInformation({ setUser, user }) {
     const [countries, setCountries] = useState([]);
     const lastnameInput = useRef();
@@ -22,6 +25,10 @@ export default function ChangeInformation({ setUser, user }) {
 
     useEffect(getCountries, [setCountries, user, isLogin]);
 
+    /**
+     * Get countries for the form
+     * @returns
+     */
     function getCountries() {
         let mounted = true;
         CountriesRequest.getAll().then(countries => {
@@ -33,10 +40,15 @@ export default function ChangeInformation({ setUser, user }) {
         return () => mounted = false;
     }
 
+    /**
+     * Check if the form is correctly completed
+     * @returns True if the form is correct otherwise False
+     */
     function checkForm() {
         let isValid = true;
         let errors_messages = [];
 
+        // Check all required input
         document.querySelectorAll("#information_form input[class~='required']").forEach(input => {
             if (!input.value) {
                 errors_messages.push(input.name + " is missing.");
@@ -44,6 +56,7 @@ export default function ChangeInformation({ setUser, user }) {
             }
         });
 
+        // Check all required select
         document.querySelectorAll("#information_form select[class~='required']").forEach(select => {
             if (!select.value) {
                 errors_messages.push(select.name + " is missing.");
@@ -51,11 +64,13 @@ export default function ChangeInformation({ setUser, user }) {
             }
         });
 
+        // Check if the user is 18 years or older
         if (!checkAge(document.querySelector("input[id=birthdate]"))) {
             errors_messages.push("You must be at least 18 years old.");
             isValid = false;
         }
 
+        // Show all information about the form
         if (!isValid) {
             let html_return = "<ul>";
             errors_messages.forEach(error => {
@@ -74,6 +89,11 @@ export default function ChangeInformation({ setUser, user }) {
         return isValid;
     }
 
+    /**
+     * Check if the user is 18 years or older
+     * @param {*} input Input form
+     * @returns True if user age >=18 otherwise False
+     */
     function checkAge(input) {
         let age = Math.abs(new Date(Date.now() - new Date(input.value).getTime()).getUTCFullYear() - 1970);
         if (age < 18) {
@@ -83,7 +103,9 @@ export default function ChangeInformation({ setUser, user }) {
         return true;
     }
 
-
+    /**
+     * Check the form and if everything is correct, change user information
+     */
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -122,6 +144,11 @@ export default function ChangeInformation({ setUser, user }) {
         });
     }
 
+    /**
+     * Set value with the information of the currently logged in user
+     * @param {string} field The field to get default value
+     * @returns Default value of the field
+     */
     function setDefaultValue(field) {
         if (!isLogin) {
             return "";
