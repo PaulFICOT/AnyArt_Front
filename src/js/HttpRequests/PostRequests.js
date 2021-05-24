@@ -48,8 +48,10 @@ export default class PostRequests {
 	}
 
 	static createPost(parameters) {
-		return httpClient
-			.post('/new', parameters)
-			.then(response => response.json());
+		return httpClient.post('/new', parameters);
+	}
+
+	static rmPost(id) {
+		return httpClient.delete(`/${id}`).then(response => response.json());
 	}
 }
