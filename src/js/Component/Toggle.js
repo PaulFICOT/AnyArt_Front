@@ -1,5 +1,8 @@
 import 'src/css/toggle.css';
 
+/**
+ * Component that shows a toggle with a specific id and text
+ */
 export default function Toggle(props) {
 
     function onChecked(event) {

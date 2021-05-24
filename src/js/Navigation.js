@@ -1,7 +1,7 @@
 import 'src/css/Navigation.css';
 import { Link } from 'react-router-dom';
 import Thumbnail from './Component/Thumbnail';
-import Logo from './Logo';
+import Logo from './Component/Logo';
 import SignIn from './Modal/auth/SignIn';
 import SignUp from './Modal/auth/SignUp';
 import LogOut from './Modal/auth/LogOut';
@@ -13,12 +13,18 @@ import HttpClient from './HttpRequests/HttpClient';
 import AuthContext from './Authentification/AuthContext';
 import AuthService from './Authentification/AuthService';
 
+/**
+ * Component that shows the navbar
+ */
 export default function Navigation() {
 	const [user, setUser] = useState([]);
 	const contextAuth = useContext(AuthContext);
 	const [notifs, setNotifs] = useState([]);
 	const [notifs_not_seen, setNotifsNotSeen] = useState([]);
 
+	/**
+	 * Get all notifications of the currently logged in user
+	 */
 	function getData() {
 		if (!contextAuth.isLogin) {
 			return;
@@ -27,9 +33,11 @@ export default function Navigation() {
 		let mounted = true;
 		const httpClient = new HttpClient();
 		const current_user = AuthService.getCurrentUser();
+		// Set user data
 		setUser(current_user);
 		httpClient.get(`notifications/${current_user.user_id}`).then(response => {
 			if (mounted) {
+				// Sort notifications by crea_date
 				const notifications_sort = response.notifications.sort(
 					(a, b) => new Date(b.crea_date) - new Date(a.crea_date)
 				);
@@ -40,6 +48,7 @@ export default function Navigation() {
 						list_notifs_not_seen.push(notif);
 					}
 				});
+				// Set all notifications not seen
 				setNotifsNotSeen(list_notifs_not_seen);
 			}
 		});
@@ -48,6 +57,10 @@ export default function Navigation() {
 
 	useEffect(getData, [setNotifs, setUser, contextAuth.isLogin, contextAuth.refreshNav]);
 
+	/**
+	 * Remove the badge when user clicks on the bell
+	 * and set all notifications not seen as seen
+	 */
 	function removeNotifsBadge() {
 		if (notifs_not_seen.length === 0) {
 			return;

@@ -3,6 +3,9 @@ import Thumbnail from './Component/Thumbnail';
 import HttpClient from './HttpRequests/HttpClient';
 import { Link } from 'react-router-dom';
 
+/**
+ * Component that shows all posts with their thumbnail and the link to go to the post
+ */
 export default function PostList(props) {
 
 	return (

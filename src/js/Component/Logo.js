@@ -1,5 +1,8 @@
 import 'src/css/Logo.css';
 
+/**
+ * Component that shows the logo
+ */
 export default function Logo() {
 	return (
 		<>
