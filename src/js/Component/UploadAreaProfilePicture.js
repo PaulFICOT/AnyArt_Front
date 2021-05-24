@@ -1,42 +1,46 @@
 import 'src/css/UploadArea.css';
 import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import UIkit from 'uikit';
 
-export default function UploadArea(props) {
-	const { imgs, setImgs, files, setFiles } = props;
+export default function UploadAreaProfilePicture(props) {
+	const { img, setFile } = props;
 	const imageSelector = useRef(null);
 
-	function loadFiles(filesObject) {
-		let tmpImgs = [];
-		let tmpFiles = [];
-		for (let file of filesObject) {
-			const img = URL.createObjectURL(file);
-			tmpImgs.push({
-				picture_id: img,
-				thumb_of: img,
-			});
-			tmpFiles.push(file);
-		}
-		tmpImgs = tmpImgs.concat(imgs);
-		tmpFiles = tmpFiles.concat(files);
-		setImgs(tmpImgs);
-		setFiles(tmpFiles);
+	function loadFile(fileObject) {
+		let image = new Image();
+        var image_url = URL.createObjectURL(fileObject[0]);
+        image.onload = function() {
+			if (this.width === this.height) {
+				img.current.src = URL.createObjectURL(fileObject[0]);
+				setFile(fileObject[0]);
+			} else {
+				UIkit.notification({
+					message: 'The profile photo must be a square image.',
+					status: 'danger',
+					pos: 'top-right',
+					timeout: 5000
+				});
+			}
+        };
+        image.src = image_url;
 	}
 
 	function handleUpload(event) {
-		loadFiles(imageSelector.current.files);
+		loadFile(imageSelector.current.files);
 	}
 
 	function handleDrop(event) {
 		event.preventDefault();
+
 		if (event.dataTransfer.items) {
-			const files = [];
+			const file = [];
 			for (let item of event.dataTransfer.items) {
 				if (item.kind === 'file') {
-					files.push(item.getAsFile());
+					file.push(item.getAsFile());
 				}
 			}
-			loadFiles(files);
+			loadFile(file);
 		}
 	}
 
@@ -60,7 +64,6 @@ export default function UploadArea(props) {
 					<input
 						type="file"
 						accept="image/*"
-						multiple
 						onChange={handleUpload}
 						ref={imageSelector}
 					/>
