@@ -8,7 +8,6 @@ import { useContext } from 'react';
 
 export default function Navigator() {
 	const loginContext = useContext(AuthContext);
-	console.log(loginContext.isLogin);
 	return (
 		<Switch>
 			<Route path="/post/:postId">
@@ -16,7 +15,6 @@ export default function Navigator() {
 			</Route>
 			<Route path="/upload">
 				{loginContext.isLogin ? <Upload /> : <Redirect to="/" />}
-				<Upload />
 			</Route>
 			<Route path="/profils/:id">
 				<Profil />
