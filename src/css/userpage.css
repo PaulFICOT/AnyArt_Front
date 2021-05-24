@@ -34,3 +34,9 @@
 .icons_clickable {
     color: var(--primary-accent);
 }
+
+.preview {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}

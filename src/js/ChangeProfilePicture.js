@@ -1,11 +1,21 @@
 import React, { useRef, useContext } from 'react';
 import ModalPortal from './ModalPortal';
-import 'uikit/dist/css/uikit.min.css'
-import AuthContext from './Authentification/AuthContext'
+import 'uikit/dist/css/uikit.min.css';
+import AuthContext from './Authentification/AuthContext';
+import UploadAreaProfilePicture from './Component/UploadAreaProfilePicture';
+import Thumbnail from './Component/Thumbnail';
+import UIkit from 'uikit';
+import ImageRequests from './HttpRequests/ImageRequest';
+import AuthService from './Authentification/AuthService';
 
-export default function ChangePassword() {
-    const profilePictureInput = useRef();
+export default function ChangePassword({ setUser }) {
+    const profile_picture = useRef(null);
+    let file_upload = null;
     const isLogin = useContext(AuthContext).isLogin;
+
+    function setFile(file) {
+        file_upload = file;
+    }
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -14,7 +24,35 @@ export default function ChangePassword() {
             return false;
         }
 
-        console.log(profilePictureInput);
+        if (!file_upload) {
+            UIkit.notification({
+                message: 'Profile picture is missing.',
+                status: 'danger',
+                pos: 'top-right',
+                timeout: 5000
+            });
+        }
+
+        const loggedUser = AuthService.getCurrentUser();
+        ImageRequests.upload(
+			{ user_id: loggedUser.user_id },
+			[file_upload]
+		).then(response => {
+            return response.json().then(data => {
+                if (response.ok) {
+                    setUser(data.user_profile);
+                    AuthService.setCurrentUser(data.user);
+                }
+
+                UIkit.notification({
+                    message: data.message,
+                    status: (response.ok) ? 'success' : 'danger',
+                    pos: 'top-right',
+                    timeout: 5000
+                });
+                return true;
+            });
+        });
     }
 
     return (
@@ -26,9 +64,14 @@ export default function ChangePassword() {
                         <h2 className="uk-modal-title">Change profile picture</h2>
                     </div>
                     <div className="uk-modal-body">
-                        <label htmlFor="picture">Profile picture</label>
-                        <input name="Profile picture" className="uk-input" type="file" id="picture" ref={ profilePictureInput } />
-                        <button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
+                        <UploadAreaProfilePicture
+							img={profile_picture}
+							setFile={setFile}
+						/>
+                        <span>Preview :</span>
+                        <div className="preview">
+                            <Thumbnail width="200px" height="200px" reference={profile_picture} rounded />
+                        </div>
                     </div>
                     <div className="uk-modal-footer uk-text-right">
                         <button className="uk-button uk-modal-close uk-margin-small-right cancel" type="button">Cancel</button>

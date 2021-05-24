@@ -1,6 +1,5 @@
 import { Switch, Route } from 'react-router-dom';
 import Post from './Post';
-import Creation from './Creation';
 import Profil from './Profil';
 import Home from './Home';
 import Upload from './Upload';
@@ -14,7 +13,9 @@ export default function Navigator() {
 			<Route path="/upload">
 				<Upload />
 			</Route>
-			<Route path="/profils/:id"><Profil /></Route>
+			<Route path="/profils/:id">
+				<Profil />
+			</Route>
 			<Route path="/">
 				<Home />
 			</Route>

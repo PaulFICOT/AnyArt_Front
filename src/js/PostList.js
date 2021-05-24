@@ -1,5 +1,5 @@
 import React from 'react';
-import Thumbnail from './Thumbnail';
+import Thumbnail from './Component/Thumbnail';
 
 export default function PostList(props) {
 

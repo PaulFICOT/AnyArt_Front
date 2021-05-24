@@ -1,4 +1,4 @@
-import Thumbnail from './Thumbnail';
+import Thumbnail from './Component/Thumbnail';
 import PostList from './PostList';
 import AuthService from './Authentification/AuthService';
 import React, { useState, useEffect, useContext } from 'react';
@@ -84,7 +84,7 @@ export default function Profil() {
                             <li><a href="#change_password" uk-toggle="target: #change_password">Change the password</a></li>
                             <ChangePassword />
                             <li><a href="#change_picture" uk-toggle="target: #change_picture">Change profile picture</a></li>
-                            <ChangeProfilePicture />
+                            <ChangeProfilePicture setUser={setUser} />
                         </ul>
                     </div>
                 </div>}

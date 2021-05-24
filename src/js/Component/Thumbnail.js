@@ -15,6 +15,7 @@ export default function Thumbnail(props) {
 				objectFit: 'cover',
 			}}
 			alt={props.src}
+			ref={props.reference ?? null}
 			width={width}
 			height={height}
 		/>
