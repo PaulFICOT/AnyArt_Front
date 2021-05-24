@@ -3,10 +3,10 @@
 ### Run the server
 `npm run`
 
-### Pré-requis
+### Requirements
 - npm >= 6.14.13
 
-### Initialiser le projet
+### Init the project
 
 ```shell
 npm install
