@@ -32,7 +32,6 @@ export default class HttpClient {
 	}
 
 	upload(route, params, files) {
-		console.log(files);
 		const url = new URL(this.buildUrl(route));
 		const formData = new FormData();
 		formData.append('data', JSON.stringify(params));
@@ -45,5 +44,9 @@ export default class HttpClient {
 			},
 			body: formData,
 		});
+	}
+
+	static imageUrl(imageId) {
+		return `http://${REACT_APP_BACKEND_DOMAIN}:${REACT_APP_BACKEND_PORT}/image/${imageId}`;
 	}
 }

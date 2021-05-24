@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import CommentBlock from './Component/CommentBlock';
 import AuthService from './Authentification/AuthService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import HttpClient from './HttpRequests/HttpClient';
 
 export default function Post(props) {
 	const { postId } = props;
@@ -19,11 +20,9 @@ export default function Post(props) {
 		artistIsVerified: false,
 		artistJob: 'JOB',
 		openToWork: false,
-		artistPic: 'images/placeholder.png',
+		artistPicId: '',
 		content: 'CONTENT',
 		nbViews: 0,
-		// nbLikes: 0,
-		// nbDislikes: 0,
 		isLiked: false,
 		isDisliked: false,
 	});
@@ -52,7 +51,7 @@ export default function Post(props) {
 					artistIsVerified: result.is_verified === '1',
 					artistJob: result.job_function,
 					openToWork: result.open_to_work === '1',
-					artistPic: result.url,
+					artistPicId: result.picture_id,
 					content: result.content,
 					nbViews: result.view_count,
 					isLiked: result.isLiked === '1',
@@ -65,9 +64,16 @@ export default function Post(props) {
 			}
 		);
 
-		PostRequests.getPicturesByPostId(postId).then(result =>
-			setPictures(result.map(x => x.url))
-		);
+		PostRequests.getPicturesByPostId(postId).then(result => {
+			setPictures(
+				result.map(x => {
+					return {
+						picture_id: HttpClient.imageUrl(x.picture_id),
+						thumb_of: HttpClient.imageUrl(x.thumb_of),
+					};
+				})
+			);
+		});
 
 		PostRequests.getCategoriesById(postId).then(result =>
 			setCategory({ id: result.category_id, name: result.category })
@@ -184,7 +190,10 @@ export default function Post(props) {
 						<Link to={'/category/' + category.id}>{category.name}</Link>
 						<div data-uk-grid>
 							<div className="uk-width-1-5@l uk-width-1-6@s">
-								<Thumbnail src={post.artistPic} rounded />
+								<Thumbnail
+									src={HttpClient.imageUrl(post.artistPicId)}
+									rounded
+								/>
 							</div>
 							<div className="uk-width-1-2">
 								{/*TODO: add link to user profile*/}
