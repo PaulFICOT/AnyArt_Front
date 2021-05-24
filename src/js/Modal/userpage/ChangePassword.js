@@ -6,6 +6,9 @@ import AuthContext from '../../Authentification/AuthContext';
 import AuthService from '../../Authentification/AuthService';
 import HttpClient from '../../HttpRequests/HttpClient';
 
+/**
+ * Component that shows a modal to change user password
+ */
 export default function ChangePassword() {
     const oldpasswordInput = useRef();
     const newpasswordInput = useRef();
@@ -13,10 +16,15 @@ export default function ChangePassword() {
     const isLogin = useContext(AuthContext).isLogin;
     const httpClient = new HttpClient();
 
+    /**
+     * Check if the form is correctly completed
+     * @returns True if the form is correct otherwise False
+     */
     function checkForm() {
         let isValid = true;
         let errors_messages = [];
 
+        // Check all input
         document.querySelectorAll("#password_form input").forEach(input => {
             if (!input.value) {
                 errors_messages.push(input.name + " is missing.");
@@ -24,11 +32,13 @@ export default function ChangePassword() {
             }
         });
 
+        // Check if the password and the re password are the same
         if (newpasswordInput.current.value !== renewpasswordInput.current.value) {
             errors_messages.push("New password and new re-password are not the same.");
             isValid = false;
         }
 
+        // Show all information about the form
         if (!isValid) {
             let html_return = "<ul>";
             errors_messages.forEach(error => {
@@ -48,6 +58,9 @@ export default function ChangePassword() {
     }
 
 
+    /**
+     * Check the form and if everything is correct, change user password
+     */
     function handleSubmit(event) {
         event.preventDefault();
 

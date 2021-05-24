@@ -8,15 +8,25 @@ import UIkit from 'uikit';
 import ImageRequests from '../../HttpRequests/ImageRequest';
 import AuthService from '../../Authentification/AuthService';
 
-export default function ChangePassword({ setUser }) {
+/**
+ * Component that shows a modal to change the user profile picture
+ */
+export default function ChangeProfilePicture({ setUser }) {
     const profile_picture = useRef(null);
     let file_upload = null;
     const contextAuth = useContext(AuthContext);
 
+    /**
+     * Set the profile picture file
+     * @param {*} file The file to recover
+     */
     function setFile(file) {
         file_upload = file;
     }
 
+    /**
+     * Check the form and if everything is correct, change the profile picture
+     */
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -40,6 +50,7 @@ export default function ChangePassword({ setUser }) {
 		).then(response => {
             return response.json().then(data => {
                 if (response.ok) {
+                    // Re-render the Navigation component for the profile picture
                     contextAuth.setRefreshNav(!contextAuth.refreshNav);
                     setUser(data.user_profile);
                     AuthService.setCurrentUser(data.user);

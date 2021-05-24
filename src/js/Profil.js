@@ -11,6 +11,9 @@ import ChangePassword from './Modal/userpage/ChangePassword';
 import ChangeProfilePicture from './Modal/userpage/ChangeProfilePicture';
 import 'src/css/userpage.css';
 
+/**
+ * Component that shows the user page with all information
+ */
 export default function Profil() {
 	const [user, setUser] = useState([]);
 	const [posts, setPosts] = useState([]);
@@ -19,11 +22,17 @@ export default function Profil() {
 	const { id } = useParams();
 	const isLogin = useContext(AuthContext).isLogin;
 
+	/**
+	 * Get all user data
+	 */
 	function getData() {
 		const current_user = AuthService.getCurrentUser() ?? { user_id: -1 };
 		const httpClient = new HttpClient();
+		// Check if this is the page of the currently logged in user
 		setOwnPage(current_user.user_id === id);
 
+		// If this is not the page of the currently logged in user
+		// Check if the current user follows the user
 		if (current_user.user_id !== id) {
 			httpClient.get(`users/${id}/${current_user.user_id}`).then(data => {
 				setFollowed(data.is_followed);
@@ -41,6 +50,9 @@ export default function Profil() {
 
 	useEffect(getData, [setPosts, setUser, setFollowed, id, isLogin, isFollowed]);
 
+	/**
+	 * Follow or unfollow the user
+	 */
 	function setFollow() {
 		const current_user = AuthService.getCurrentUser() ?? { user_id: -1 };
 		const httpClient = new HttpClient();
