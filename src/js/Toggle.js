@@ -1,14 +1,9 @@
 import 'src/css/toggle.css';
-import UIkit from 'uikit';
 
 export default function Toggle(props) {
 
     function onChecked(event) {
         props.setToggle(props.id, event.target.checked);
-        UIkit.filter('.thumbnails-filter', {
-            target: '.thumbnails-filter',
-            selActive: true,
-        });
     }
 
     return(
