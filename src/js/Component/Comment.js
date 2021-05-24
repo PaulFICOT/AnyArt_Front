@@ -59,7 +59,7 @@ export default function Comment(props) {
 								</Link>
 							</h4>
 							<ul className="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-								<li>{realDate}</li>
+								<li>{new Date(realDate).toUTCString()}</li>
 								{isLogin ? (
 									<li>
 										<button
