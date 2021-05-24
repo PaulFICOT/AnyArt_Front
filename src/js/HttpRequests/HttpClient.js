@@ -47,4 +47,8 @@ export default class HttpClient {
 			body: formData,
 		});
 	}
+
+	static imageUrl(imageId) {
+		return `http://${REACT_APP_BACKEND_DOMAIN}:${REACT_APP_BACKEND_PORT}/image/${imageId}`;
+	}
 }
