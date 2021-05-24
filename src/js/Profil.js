@@ -57,7 +57,10 @@ export default function Profil() {
         <>
             <div className="uk-flex" id="user_profil" data-uk-grid>
                 <div className="uk-width-medium uk-margin-medium-left avatar uk-logo">
-                    <Thumbnail src={user.profile_pic ?? '2LowviVHZ-E'} rounded />
+                    <Thumbnail
+                        src={(user.profile_pic) ? HttpClient.imageUrl(user.profile_pic) : ''}
+                        rounded
+                    />
                 </div>
                 <div className="uk-flex-middle uk-flex-middle uk-flex">
                     <div>

@@ -9,9 +9,10 @@ import AuthComponent from './Authentification/AuthComponent';
 import AuthService from './Authentification/AuthService';
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import HttpClient from './HttpRequests/HttpClient';
 
 export default function Navigation() {
-	const current_user_id = (AuthService.getCurrentUser()) ? AuthService.getCurrentUser().user_id : -1;
+	const current_user = (AuthService.getCurrentUser()) ? AuthService.getCurrentUser() : { user_id : -1 };
 	return (
 		<nav className="navigation" data-uk-navbar>
 			<div className="uk-navbar-left">
@@ -50,12 +51,15 @@ export default function Navigation() {
 					</AuthComponent>
 					<li>
 						<div className="uk-width-small avatar uk-margin-small-right uk-logo">
-							<Thumbnail src={'2LowviVHZ-E'} rounded />
+							<Thumbnail
+								src={(current_user.profile_pic) ? HttpClient.imageUrl(current_user.profile_pic) : ''}
+								rounded
+							/>
 							<div data-uk-dropdown="mode:click">
 								<ul className="uk-nav uk-dropdown-nav">
 									<AuthComponent login="true">
 										<li>
-											<Link to={`/profils/${current_user_id}`} style={{ textDecoration: 'none' }}>
+											<Link to={`/profils/${current_user.user_id}`} style={{ textDecoration: 'none' }}>
 												Profil
 											</Link>
 										</li>
