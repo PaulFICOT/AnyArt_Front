@@ -123,7 +123,7 @@ export default function Home(props) {
 				<div data-uk-dropdown="mode:click">
 					<ul className="uk-nav uk-dropdown-nav">
 						<li className="uk-nav-header">Job</li>
-							<Toggle id="OpenToWork" text="OpenToWork" setToggle={setToggle}/>
+							<Toggle id="OpenToWork" text="Open to work" setToggle={setToggle}/>
 						<li className="uk-nav-header">Categories</li>
 						{categories.map(category => (
 							<Toggle key={category.category_id} id={category.category_id} text={category.category} setToggle={setToggle}/>
