@@ -7,12 +7,23 @@ import SignUp from './SignUp';
 import LogOut from './LogOut';
 import AuthComponent from './Authentification/AuthComponent';
 import AuthService from './Authentification/AuthService';
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HttpClient from './HttpRequests/HttpClient';
+import AuthContext from './Authentification/AuthContext';
 
 export default function Navigation() {
-	const current_user = (AuthService.getCurrentUser()) ? AuthService.getCurrentUser() : { user_id : -1 };
+	const [user, setUser] = useState([]);
+	const contextAuth = useContext(AuthContext);
+
+	function getDataUser() {
+		if (contextAuth.isLogin) {
+			setUser(AuthService.getCurrentUser());
+		}
+    }
+
+	useEffect(getDataUser, [setUser, contextAuth.refreshNav, contextAuth.isLogin]);
+
 	return (
 		<nav className="navigation" data-uk-navbar>
 			<div className="uk-navbar-left">
@@ -52,14 +63,15 @@ export default function Navigation() {
 					<li>
 						<div className="uk-width-small avatar uk-margin-small-right uk-logo">
 							<Thumbnail
-								src={(current_user.profile_pic) ? HttpClient.imageUrl(current_user.profile_pic) : '/images/user_avatar.png'}
+								src={(user.profile_pic && contextAuth.isLogin) ? HttpClient.imageUrl(user.profile_pic) : '/images/user_avatar.png'}
 								rounded
+								version={Math.random()}
 							/>
 							<div data-uk-dropdown="mode:click">
 								<ul className="uk-nav uk-dropdown-nav">
 									<AuthComponent login="true">
 										<li>
-											<Link to={`/profils/${current_user.user_id}`} style={{ textDecoration: 'none' }}>
+											<Link to={`/profils/${user.user_id}`} style={{ textDecoration: 'none' }}>
 												Profil
 											</Link>
 										</li>

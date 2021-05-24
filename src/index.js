@@ -12,6 +12,7 @@ import './css/index.css';
 
 const AppWrapper = () => {
 	const [isLogin, setLogin] = useState(false);
+	const [refreshNav, setRefreshNav] = useState(false);
 
 	if (AuthService.getCurrentUser() != null) {
 		AuthService.verifToken().then(response => {
@@ -20,7 +21,7 @@ const AppWrapper = () => {
 	}
 
 	return (
-		<AuthContext.Provider value={{ isLogin, setLogin }}>
+		<AuthContext.Provider value={{ isLogin, refreshNav, setLogin, setRefreshNav }}>
 			<React.StrictMode>
 				<App />
 			</React.StrictMode>

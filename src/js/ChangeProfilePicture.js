@@ -11,7 +11,7 @@ import AuthService from './Authentification/AuthService';
 export default function ChangePassword({ setUser }) {
     const profile_picture = useRef(null);
     let file_upload = null;
-    const isLogin = useContext(AuthContext).isLogin;
+    const contextAuth = useContext(AuthContext);
 
     function setFile(file) {
         file_upload = file;
@@ -20,7 +20,7 @@ export default function ChangePassword({ setUser }) {
     function handleSubmit(event) {
         event.preventDefault();
 
-        if (!isLogin) {
+        if (!contextAuth.isLogin) {
             return false;
         }
 
@@ -40,6 +40,7 @@ export default function ChangePassword({ setUser }) {
 		).then(response => {
             return response.json().then(data => {
                 if (response.ok) {
+                    contextAuth.setRefreshNav(!contextAuth.refreshNav);
                     setUser(data.user_profile);
                     AuthService.setCurrentUser(data.user);
                 }
