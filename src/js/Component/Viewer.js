@@ -1,28 +1,27 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import Carousel from './Carousel';
 
 export default function Viewer(props) {
 	const { pictures } = props;
+	const [mainPic, setMainPic] = useState('');
 
 	useEffect(() => {
 		if (pictures.length > 0) {
-			setMain(pictures[0].thumb_of);
+			setMainPic(pictures[0].original);
 		}
-	});
-
-	const main = useRef(null);
-
-	function setMain(src) {
-		main.current.src = src;
-	}
+	}, [pictures]);
 
 	return (
 		<div>
 			<div>
-				<img ref={main} alt="" />
+				<img alt="" src={mainPic} />
 			</div>
-			<Carousel images={pictures} onClick={setMain} />
+			{pictures.length > 1 ? (
+				<Carousel images={pictures} setMainPic={setMainPic} />
+			) : (
+				''
+			)}
 		</div>
 	);
 }

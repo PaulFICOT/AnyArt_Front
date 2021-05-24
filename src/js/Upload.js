@@ -48,6 +48,9 @@ export default function Upload() {
 			if (!x.value) {
 				errors_messages.push(x.name + ' is missing.');
 			}
+			if (x.value.length > 255) {
+				errors_messages.push(x.name + ' is too long. (255 char max)');
+			}
 		});
 
 		document.querySelectorAll('#upload-form select').forEach(x => {
