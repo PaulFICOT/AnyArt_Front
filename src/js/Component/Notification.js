@@ -1,6 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 
+/**
+ * Component that shows a notification with all information
+ */
 export default function Notification(props) {
     const { content, is_read, crea_date, follower_user_id, post_id } = props.notif;
     const date = new Date(crea_date);
