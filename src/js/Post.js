@@ -4,14 +4,14 @@ import Thumbnail from './Component/Thumbnail';
 import Counter from './Component/Counter';
 import PostRequests from './HttpRequests/PostRequests';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import CommentBlock from './Component/CommentBlock';
 import AuthService from './Authentification/AuthService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HttpClient from './HttpRequests/HttpClient';
 
-export default function Post(props) {
-	const { postId } = props;
+export default function Post() {
+	const { postId } = useParams();
 
 	const [post, setPost] = useState({
 		title: 'TITLE',
@@ -65,6 +65,9 @@ export default function Post(props) {
 		);
 
 		PostRequests.getPicturesByPostId(postId).then(result => {
+			if (!Array.isArray(result)) {
+				return;
+			}
 			setPictures(
 				result.map(x => {
 					return {
