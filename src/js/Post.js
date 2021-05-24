@@ -64,9 +64,16 @@ export default function Post(props) {
 			}
 		);
 
-		PostRequests.getPicturesByPostId(postId).then(result =>
-			setPictures(result.map(x => HttpClient.imageUrl(x.picture_id)))
-		);
+		PostRequests.getPicturesByPostId(postId).then(result => {
+			setPictures(
+				result.map(x => {
+					return {
+						picture_id: HttpClient.imageUrl(x.picture_id),
+						thumb_of: HttpClient.imageUrl(x.thumb_of),
+					};
+				})
+			);
+		});
 
 		PostRequests.getCategoriesById(postId).then(result =>
 			setCategory({ id: result.category_id, name: result.category })
