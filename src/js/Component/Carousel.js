@@ -1,7 +1,7 @@
 import Thumbnail from './Thumbnail';
 
 export default function Carousel(props) {
-	const { images, onClick } = props;
+	const { images, setMainPic } = props;
 
 	return (
 		<div className="uk-light uk-position-relative" data-uk-slider>
@@ -10,9 +10,9 @@ export default function Carousel(props) {
 					{images.map((x, i) => (
 						<li key={i}>
 							<Thumbnail
-								handleClick={onClick}
-								src={x.picture_id}
-								original={x.thumb_of}
+								setMainPic={setMainPic}
+								src={x.thumbnail}
+								original={x.original}
 							/>
 						</li>
 					))}
