@@ -1,10 +1,8 @@
 import Comment from './Comment';
 import CommentReply from './CommentReply';
-import AuthService from '../Authentification/AuthService';
 
 export default function CommentBlock(props) {
 	const { comments, postId, updateTrigger } = props;
-	const loggedUser = AuthService.getCurrentUser();
 
 	function generateComment(comment, index) {
 		return (
@@ -25,18 +23,14 @@ export default function CommentBlock(props) {
 
 	return (
 		<>
-			{comments.length === 0 && loggedUser != null ? (
-				<CommentReply
-					postId={postId}
-					replyTo={null}
-					updateTrigger={updateTrigger}
-				/>
-			) : (
-				''
-			)}
-			<ul className="uk-comment-list uk-overflow-auto">
+			<ul className="uk-comment-list">
 				{comments.map((x, i) => generateComment(x, i))}
 			</ul>
+			<CommentReply
+				postId={postId}
+				replyTo={null}
+				updateTrigger={updateTrigger}
+			/>
 		</>
 	);
 }

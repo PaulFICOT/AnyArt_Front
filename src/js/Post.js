@@ -203,8 +203,7 @@ export default function Post() {
 								/>
 							</div>
 							<div className="uk-width-1-2">
-								{/*TODO: add link to user profile*/}
-								<Link to={'/user/' + post.userId}>
+								<Link to={`/profils/${post.userId}`}>
 									<h3>
 										{post.artistName}
 										{post.artistIsVerified ? (
