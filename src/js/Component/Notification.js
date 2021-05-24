@@ -2,9 +2,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 
 export default function Notification(props) {
-    const { content, is_read, crea_date, follower_id, post_id } = props.notif;
+    const { content, is_read, crea_date, follower_user_id, post_id } = props.notif;
     const date = new Date(crea_date);
-    const link = "/" + ((follower_id) ? `profils/${follower_id}` : `post/${post_id}`);
+    const link = "/" + ((follower_user_id) ? `profils/${follower_user_id}` : `post/${post_id}`);
 
 	return (
         <Link to={link} style={{ textDecoration: 'none', padding: '0 0 0 0' }}>
