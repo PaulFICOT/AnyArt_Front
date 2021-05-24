@@ -60,6 +60,7 @@ export default function Profil() {
                     <Thumbnail
                         src={(user.profile_pic) ? HttpClient.imageUrl(user.profile_pic) : '/images/user_avatar.png'}
                         rounded
+                        version={Math.random()}
                     />
                 </div>
                 <div className="uk-flex-middle uk-flex-middle uk-flex">
