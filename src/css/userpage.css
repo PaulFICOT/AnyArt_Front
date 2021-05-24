@@ -1,0 +1,42 @@
+#user_profil {
+    border-bottom: 2px solid var(--primary-accent);
+}
+
+.icons {
+    color: var(--primary-accent);
+    font-size: 3em;
+}
+
+.icons button{
+    font-size: 1em;
+}
+
+.icons button svg {
+    color: var(--primary-accent);
+}
+
+.counters svg {
+    color: var(--primary-accent);
+}
+
+.counters span {
+    font-size: 2em;
+}
+
+.username {
+    color: lightgray;
+}
+
+.icons_clickable:hover {
+    color: var(--primary-accent);
+}
+
+.icons_clickable {
+    color: var(--primary-accent);
+}
+
+.preview {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}

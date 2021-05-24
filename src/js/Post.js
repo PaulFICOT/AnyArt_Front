@@ -1,14 +1,17 @@
-import Viewer from './Viewer';
+import Viewer from './Component/Viewer';
 import Page from './Page';
-import Thumbnail from './Thumbnail';
-import Counter from './Counter';
+import Thumbnail from './Component/Thumbnail';
+import Counter from './Component/Counter';
 import PostRequests from './HttpRequests/PostRequests';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import CommentBlock from './CommentBlock';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import CommentBlock from './Component/CommentBlock';
+import AuthService from './Authentification/AuthService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import HttpClient from './HttpRequests/HttpClient';
 
-export default function Post(props) {
-	const { postId } = props;
+export default function Post() {
+	const { postId } = useParams();
 
 	const [post, setPost] = useState({
 		title: 'TITLE',
@@ -17,37 +20,63 @@ export default function Post(props) {
 		artistIsVerified: false,
 		artistJob: 'JOB',
 		openToWork: false,
-		artistPic: 'images/placeholder.png',
+		artistPicId: null,
 		content: 'CONTENT',
 		nbViews: 0,
-		nbLikes: 0,
-		nbDislikes: 0,
+		isLiked: false,
+		isDisliked: false,
+	});
+	const [opinions, setOpinions] = useState({
+		likes: 0,
+		dislikes: 0,
 	});
 	const [category, setCategory] = useState({ id: -1, name: '' });
 	const [pictures, setPictures] = useState([]);
 	const [tags, setTags] = useState([]);
 	const [comments, setComments] = useState([]);
+	const loggedUser = AuthService.getCurrentUser();
+
+	function getSQLDate() {
+		const date = new Date();
+		return date.toISOString().substr(0, 19).replace('T', ' ');
+	}
 
 	useEffect(() => {
-		PostRequests.getById(postId).then(result => {
-			setPost({
-				title: result.title,
-				userId: result.user_id,
-				artistName: result.username,
-				artistIsVerified: result.is_verified,
-				artistJob: result.job_function,
-				openToWork: result.open_to_work,
-				artistPic: result.url,
-				content: result.content,
-				nbViews: result.view_count,
-				nbLikes: result.likes,
-				nbDislikes: result.dislikes,
-			});
-		});
-
-		PostRequests.getPicturesByPostId(postId).then(result =>
-			setPictures(result.map(x => x.url))
+		PostRequests.getById(postId, { user_id: loggedUser.user_id }).then(
+			result => {
+				setPost({
+					title: result.title,
+					userId: result.user_id,
+					artistName: result.username,
+					artistIsVerified: result.is_verified === '1',
+					artistJob: result.job_function,
+					openToWork: result.open_to_work === '1',
+					artistPicId: result.picture_id,
+					content: result.content,
+					nbViews: result.view_count,
+					isLiked: result.isLiked === '1',
+					isDisliked: result.isDisliked === '1',
+				});
+				setOpinions({
+					likes: result.likes,
+					dislikes: result.dislikes,
+				});
+			}
 		);
+
+		PostRequests.getPicturesByPostId(postId).then(result => {
+			if (!Array.isArray(result)) {
+				return;
+			}
+			setPictures(
+				result.map(x => {
+					return {
+						picture_id: HttpClient.imageUrl(x.picture_id),
+						thumb_of: HttpClient.imageUrl(x.thumb_of),
+					};
+				})
+			);
+		});
 
 		PostRequests.getCategoriesById(postId).then(result =>
 			setCategory({ id: result.category_id, name: result.category })
@@ -79,7 +108,7 @@ export default function Post(props) {
 				.forEach(x => comments.find(y => y.id === x.replyTo).responses.push(x));
 			setComments(comments.filter(x => x.replyTo === null));
 		});
-	}, [postId]);
+	}, [postId, loggedUser.user_id]);
 
 	function updateComments() {
 		PostRequests.getCommentsByPostId(postId).then(response => {
@@ -102,8 +131,52 @@ export default function Post(props) {
 		});
 	}
 
-	function updateLikes() {}
-	function updateDislikes() {}
+	async function likePost() {
+		await PostRequests.setOpinion(postId, {
+			action: post.isDisliked ? 'switch' : 'like',
+			user_id: loggedUser.user_id,
+			crea_date: getSQLDate(),
+		});
+		const newPost = JSON.parse(JSON.stringify(post));
+		newPost.isLiked = true;
+		newPost.isDisliked = false;
+		await setPost(newPost);
+		updateOpinions();
+	}
+
+	async function dislikePost() {
+		await PostRequests.setOpinion(postId, {
+			action: post.isLiked ? 'switch' : 'like',
+			user_id: loggedUser.user_id,
+			crea_date: getSQLDate(),
+		});
+		const newPost = JSON.parse(JSON.stringify(post));
+		newPost.isLiked = false;
+		newPost.isDisliked = true;
+		await setPost(newPost);
+		updateOpinions();
+	}
+
+	async function cancelOpinion() {
+		await PostRequests.setOpinion(postId, {
+			action: 'remove',
+			user_id: loggedUser.user_id,
+		});
+		const newPost = JSON.parse(JSON.stringify(post));
+		newPost.isLiked = false;
+		newPost.isDisliked = false;
+		await setPost(newPost);
+		updateOpinions();
+	}
+
+	function updateOpinions() {
+		PostRequests.getOpinion(postId).then(response => {
+			setOpinions({
+				likes: response.likes,
+				dislikes: response.dislikes,
+			});
+		});
+	}
 
 	return (
 		<Page>
@@ -119,17 +192,23 @@ export default function Post(props) {
 						<h2 className="uk-margin-remove">{post.title}</h2>
 						<Link to={'/category/' + category.id}>{category.name}</Link>
 						<div data-uk-grid>
-							<div className="uk-width-1-6">
-								<Thumbnail src={post.artistPic} />
+							<div className="uk-width-1-5@l uk-width-1-6@s">
+								<Thumbnail
+									src={
+										post.artistPicId != null
+											? HttpClient.imageUrl(post.artistPicId)
+											: '/images/user_avatar.png'
+									}
+									rounded
+								/>
 							</div>
 							<div className="uk-width-1-2">
-								{/*TODO: add link to user profile*/}
-								<Link to={'/user/' + post.userId}>
+								<Link to={`/profils/${post.userId}`}>
 									<h3>
 										{post.artistName}
 										{post.artistIsVerified ? (
 											<sup>
-												<i className="fas fa-check-circle" />
+												<FontAwesomeIcon icon={['fas', 'check-circle']} />
 											</sup>
 										) : (
 											''
@@ -140,7 +219,7 @@ export default function Post(props) {
 									{post.artistJob}
 									{post.openToWork ? (
 										<sup>
-											<i className="fas fa-briefcase" />
+											<FontAwesomeIcon icon={['fas', 'briefcase']} />
 										</sup>
 									) : (
 										''
@@ -149,20 +228,26 @@ export default function Post(props) {
 							</div>
 							<div className="uk-width-1-3" data-uk-grid>
 								<div className="uk-width-1-1 uk-padding-remove">
-									<Counter icon="fa-eye" count={post.nbViews} />
+									<Counter icon="eye" count={post.nbViews} />
 								</div>
 								<div className="uk-width-1-2 uk-padding-remove">
 									<Counter
-										icon="fa-thumbs-up"
-										count={post.nbLikes}
-										solid={false}
+										icon="thumbs-up"
+										count={opinions.likes}
+										solid={post.isLiked}
+										onClickCallback={_event =>
+											post.isLiked ? cancelOpinion() : likePost()
+										}
 									/>
 								</div>
 								<div className="uk-width-1-2 uk-padding-remove">
 									<Counter
-										icon="fa-thumbs-down"
-										count={post.nbDislikes}
-										solid={false}
+										icon="thumbs-down"
+										count={opinions.dislikes}
+										solid={post.isDisliked}
+										onClickCallback={_event =>
+											post.isDisliked ? cancelOpinion() : dislikePost()
+										}
 									/>
 								</div>
 							</div>

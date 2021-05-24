@@ -40,6 +40,10 @@ const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem("user"));
 };
 
+const setCurrentUser = (user) => {
+    localStorage.setItem('user', JSON.stringify(user));
+};
+
 const getCurrentToken = () => {
     return localStorage.getItem("token");
 };
@@ -56,6 +60,7 @@ const auth_functions = {
     login,
     logout,
     getCurrentUser,
+    setCurrentUser,
     getCurrentToken,
     verifToken,
 };

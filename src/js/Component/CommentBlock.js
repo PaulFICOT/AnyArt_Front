@@ -23,18 +23,14 @@ export default function CommentBlock(props) {
 
 	return (
 		<>
-			{comments.length === 0 ? (
-				<CommentReply
-					postId={postId}
-					replyTo={null}
-					updateTrigger={updateTrigger}
-				/>
-			) : (
-				''
-			)}
-			<ul className="uk-comment-list uk-overflow-auto">
+			<ul className="uk-comment-list">
 				{comments.map((x, i) => generateComment(x, i))}
 			</ul>
+			<CommentReply
+				postId={postId}
+				replyTo={null}
+				updateTrigger={updateTrigger}
+			/>
 		</>
 	);
 }

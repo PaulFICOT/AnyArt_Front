@@ -3,8 +3,8 @@ import HttpClient from './HttpClient';
 const httpClient = new HttpClient('posts');
 
 export default class PostRequests {
-	static getById(id) {
-		return httpClient.get(`/${id}`);
+	static getById(id, parameters) {
+		return httpClient.get(`/${id}`, parameters);
 	}
 
 	static getTagsByPostId(id) {
@@ -33,5 +33,19 @@ export default class PostRequests {
 
 	static getThumbnailsUnlogged(parameters) {
 		return httpClient.get(`/thumbnails/${parameters}`);
+	}
+
+	static setOpinion(id, parameters) {
+		return httpClient.post(`/${id}/opinion`, parameters);
+	}
+
+	static getOpinion(id) {
+		return httpClient.get(`/${id}/opinion`);
+	}
+
+	static createPost(parameters) {
+		return httpClient
+			.post('/new', parameters)
+			.then(response => response.json());
 	}
 }
