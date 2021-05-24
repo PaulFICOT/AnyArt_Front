@@ -31,6 +31,15 @@ export default function Home(props) {
 				.then(data => setPosts(data));
 			setTypePosts('unlogged');
 		}
+
+		document.getElementById("search_button").onclick = function () { changePostsBySearchBar() }
+	}
+
+	function changePostsBySearchBar() {
+		const search_text = document.getElementById("search_input").value;
+		PostRequests.getThumbnailsBySearch({search_text: search_text}).then(response => {
+			console.log(response);
+		})
 	}
 
 	function changeTypePosts(type) {

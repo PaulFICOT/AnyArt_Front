@@ -31,6 +31,10 @@ export default class PostRequests {
 		return httpClient.get(`/thumbnails/${id}/discover`, parameters);
 	}
 
+	static getThumbnailsBySearch(parameters){
+		return httpClient.get('/thumbnails/research', parameters);
+	}
+
 	static getThumbnailsUnlogged(id, parameters) {
 		return httpClient.get(`/thumbnails/${id}`, parameters);
 	}

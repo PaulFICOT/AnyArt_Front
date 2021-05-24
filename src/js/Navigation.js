@@ -24,11 +24,10 @@ export default function Navigation() {
 			return;
 		}
 
-		setUser(AuthService.getCurrentUser());
-
 		let mounted = true;
 		const httpClient = new HttpClient();
 		const current_user = AuthService.getCurrentUser();
+		setUser(current_user);
 		httpClient.get(`notifications/${current_user.user_id}`).then(response => {
 			if (mounted) {
 				const notifications_sort = response.notifications.sort(
@@ -78,15 +77,14 @@ export default function Navigation() {
 
 			<div className="uk-navbar-right">
 				<ul className="uk-navbar-nav">
-					<li className="uk-navbar-item">
-						<form>
-							<input
-								className="uk-input uk-form-width-small"
-								type="text"
-								placeholder="Type here..."
-							/>
-							<button className="uk-button uk-button-default">Search</button>
-						</form>
+					<li className="uk-navbar-item search">
+						<input
+							className="uk-input uk-form-width-small"
+							type="text"
+							placeholder="Type here..."
+							id="search_input"
+						/>
+						<button id="search_button" className="uk-button uk-button-default">Search</button>
 					</li>
 					<AuthComponent login="true">
 						<li className="uk-navbar-item">
