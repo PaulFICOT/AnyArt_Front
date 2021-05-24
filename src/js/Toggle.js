@@ -1,15 +1,19 @@
 import 'src/css/toggle.css';
+import UIkit from 'uikit';
 
 export default function Toggle(props) {
 
     function onChecked(event) {
-        console.log(event.target.checked);
-        props.xd("OpenToWork", event.target.checked);
+        props.setToggle(props.id, event.target.checked);
+        UIkit.filter('.thumbnails-filter', {
+            target: '.thumbnails-filter',
+            selActive: true,
+        });
     }
 
     return(
         <span>
-			<div className="uk-item-text">{props.text}</div>						
+			<div className="uk-item-text">{props.text}</div>
         <div>
             <label className="uk-switch" htmlFor={props.id}>
                 <input type="checkbox" id={props.id} onChange={(event) => onChecked(event)}/>
