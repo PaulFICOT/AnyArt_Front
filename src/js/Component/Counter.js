@@ -11,7 +11,7 @@ export default function Counter(props) {
 			<span onClick={onClickCallback} style={style}>
 				<FontAwesomeIcon icon={[solid ? 'fas' : 'far', icon]} />
 			</span>
-			<span className="uk-margin-small-left">{count || 'XX'}</span>
+			<span className="uk-margin-small-left">{count}</span>
 		</>
 	);
 }
