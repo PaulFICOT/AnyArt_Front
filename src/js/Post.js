@@ -34,7 +34,7 @@ export default function Post() {
 	const [pictures, setPictures] = useState([]);
 	const [tags, setTags] = useState([]);
 	const [comments, setComments] = useState([]);
-	const loggedUser = AuthService.getCurrentUser();
+	const loggedUser = AuthService.getCurrentUser() ?? { user_id: -1 };
 
 	function getSQLDate() {
 		const date = new Date();
@@ -118,7 +118,7 @@ export default function Post() {
 					date: x.crea_date,
 					userId: x.user_id,
 					username: x.username,
-					userPic: x.url,
+					userPic: x.picture_id,
 					replyTo: x.reply_to,
 					content: x.content,
 					responses: [],
