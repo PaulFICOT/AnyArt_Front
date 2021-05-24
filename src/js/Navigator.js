@@ -15,7 +15,6 @@ export default function Navigator() {
 			</Route>
 			<Route path="/upload">
 				{loginContext.isLogin ? <Upload /> : <Redirect to="/" />}
-				<Upload />
 			</Route>
 			<Route path="/profils/:id">
 				<Profil />
