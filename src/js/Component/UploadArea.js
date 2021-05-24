@@ -12,8 +12,8 @@ export default function UploadArea(props) {
 		for (let file of filesObject) {
 			const img = URL.createObjectURL(file);
 			tmpImgs.push({
-				picture_id: img,
-				thumb_of: img,
+				thumbnail: img,
+				original: img,
 			});
 			tmpFiles.push(file);
 		}

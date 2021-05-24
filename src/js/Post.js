@@ -71,8 +71,8 @@ export default function Post() {
 			setPictures(
 				result.map(x => {
 					return {
-						picture_id: HttpClient.imageUrl(x.picture_id),
-						thumb_of: HttpClient.imageUrl(x.thumb_of),
+						thumbnail: HttpClient.imageUrl(x.picture_id),
+						original: HttpClient.imageUrl(x.thumb_of),
 					};
 				})
 			);
@@ -146,7 +146,7 @@ export default function Post() {
 
 	async function dislikePost() {
 		await PostRequests.setOpinion(postId, {
-			action: post.isLiked ? 'switch' : 'like',
+			action: post.isLiked ? 'switch' : 'dislike',
 			user_id: loggedUser.user_id,
 			crea_date: getSQLDate(),
 		});
