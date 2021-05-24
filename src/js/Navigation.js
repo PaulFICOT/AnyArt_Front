@@ -18,14 +18,13 @@ export default function Navigation() {
 	const contextAuth = useContext(AuthContext);
 	const [notifs, setNotifs] = useState([]);
 	const [notifs_not_seen, setNotifsNotSeen] = useState([]);
-	function getDataUser() {
-		if (contextAuth.isLogin) {
-			setUser(AuthService.getCurrentUser());
-		}
-	function fetchNotifs() {
-		if (!isLogin) {
+
+	function getData() {
+		if (!contextAuth.isLogin) {
 			return;
 		}
+
+		setUser(AuthService.getCurrentUser());
 
 		let mounted = true;
 		const httpClient = new HttpClient();
@@ -43,10 +42,9 @@ export default function Navigation() {
 			}
 		});
 		return () => (mounted = false);
-
-
 	}
-	useEffect(fetchNotifs, [setNotifs, isLogin]);
+
+	useEffect(getData, [setNotifs, setUser, contextAuth.isLogin, contextAuth.refreshNav]);
 
 	function removeNotifsBadge() {
 		if (notifs_not_seen.length === 0) {
