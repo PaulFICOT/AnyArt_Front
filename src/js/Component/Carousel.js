@@ -18,6 +18,7 @@ export default function Carousel(props) {
 					))}
 				</ul>
 			</div>
+			{/*
 			<button
 				data-uk-slidenav-previous
 				data-uk-slider-item="previous"
@@ -28,6 +29,7 @@ export default function Carousel(props) {
 				data-uk-slider-item="next"
 				className="uk-position-center-right-out uk-slidenav-large"
 			/>
+			*/}
 		</div>
 	);
 }
