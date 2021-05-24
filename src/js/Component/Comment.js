@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import CommentReply from './CommentReply';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Thumbnail from './Thumbnail';
-import AuthService from '../Authentification/AuthService';
 import HttpClient from '../HttpRequests/HttpClient';
+import AuthContext from '../Authentification/AuthContext';
 
 export default function Comment(props) {
 	const { id, date, userId, username, userPic, content } = props.comment;
@@ -22,7 +22,7 @@ export default function Comment(props) {
 	).toLocaleString();
 
 	const [reply, setReply] = useState(false);
-	const loggedUser = AuthService.getCurrentUser();
+	const isLogin = useContext(AuthContext).isLogin;
 
 	function customUpdateTrigger() {
 		updateTrigger();
@@ -30,7 +30,7 @@ export default function Comment(props) {
 	}
 
 	function switchReply() {
-		setReply(!reply && loggedUser != null);
+		setReply(!reply);
 	}
 
 	return (
@@ -60,14 +60,18 @@ export default function Comment(props) {
 							</h4>
 							<ul className="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
 								<li>{realDate}</li>
-								<li>
-									<button
-										className="uk-button uk-button-text"
-										onClick={switchReply}
-									>
-										Reply
-									</button>
-								</li>
+								{isLogin ? (
+									<li>
+										<button
+											className="uk-button uk-button-text"
+											onClick={switchReply}
+										>
+											Reply
+										</button>
+									</li>
+								) : (
+									''
+								)}
 							</ul>
 						</div>
 					</div>
