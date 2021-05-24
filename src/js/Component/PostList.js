@@ -1,6 +1,6 @@
 import React from 'react';
-import Thumbnail from './Component/Thumbnail';
-import HttpClient from './HttpRequests/HttpClient';
+import Thumbnail from './Thumbnail';
+import HttpClient from '../HttpRequests/HttpClient';
 import { Link } from 'react-router-dom';
 
 /**

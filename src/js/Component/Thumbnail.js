@@ -1,3 +1,6 @@
+/**
+ * Component that shows an image with different characteristic
+ */
 export default function Thumbnail(props) {
 	const {
 		src,

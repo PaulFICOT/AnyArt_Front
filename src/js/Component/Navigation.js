@@ -1,17 +1,17 @@
 import 'src/css/Navigation.css';
 import { Link } from 'react-router-dom';
-import Thumbnail from './Component/Thumbnail';
-import Logo from './Component/Logo';
-import SignIn from './Modal/auth/SignIn';
-import SignUp from './Modal/auth/SignUp';
-import LogOut from './Modal/auth/LogOut';
-import AuthComponent from './Authentification/AuthComponent';
+import Thumbnail from './Thumbnail';
+import Logo from './Logo';
+import SignIn from '../Modal/auth/SignIn';
+import SignUp from '../Modal/auth/SignUp';
+import LogOut from '../Modal/auth/LogOut';
+import AuthComponent from '../Authentification/AuthComponent';
 import React, { useState, useEffect, useContext } from 'react';
-import Notification from './Component/Notification';
+import Notification from './Notification';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import HttpClient from './HttpRequests/HttpClient';
-import AuthContext from './Authentification/AuthContext';
-import AuthService from './Authentification/AuthService';
+import HttpClient from '../HttpRequests/HttpClient';
+import AuthContext from '../Authentification/AuthContext';
+import AuthService from '../Authentification/AuthService';
 
 /**
  * Component that shows the navbar

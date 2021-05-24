@@ -2,6 +2,9 @@ import { useRef } from 'react';
 import PostRequests from '../HttpRequests/PostRequests';
 import AuthService from '../Authentification/AuthService';
 
+/**
+ * Component that allows user to put comment for a post
+ */
 export default function CommentReply(props) {
 	const { postId, replyTo, updateTrigger } = props;
 
@@ -9,11 +12,19 @@ export default function CommentReply(props) {
 	const formInput = useRef('');
 	const loggedUser = AuthService.getCurrentUser();
 
+	/**
+	 * Make date for SQL format
+	 */
 	function getSQLDate() {
 		const date = new Date();
 		return date.toISOString().substr(0, 19).replace('T', ' ');
 	}
 
+	/**
+	 * Create a new comment
+	 * @param {*} postId The id of the post
+	 * @param {*} event Form event
+	 */
 	async function postNewComment(postId, event) {
 		event.preventDefault();
 		const messageContent = contentInput.current.value;

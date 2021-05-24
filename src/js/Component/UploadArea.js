@@ -2,10 +2,17 @@ import 'src/css/UploadArea.css';
 import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+/**
+ * Component that shows an upload area for the upload of post
+ */
 export default function UploadArea(props) {
 	const { imgs, setImgs, files, setFiles } = props;
 	const imageSelector = useRef(null);
 
+	/**
+	 * Recover files and images that the user has uploaded
+	 * @param {*} filesObject The files to recover
+	 */
 	function loadFiles(filesObject) {
 		let tmpImgs = [];
 		let tmpFiles = [];
@@ -23,10 +30,18 @@ export default function UploadArea(props) {
 		setFiles(tmpFiles);
 	}
 
+	/**
+	 * Load the files when user puts files
+	 * @param {*} event The input event
+	 */
 	function handleUpload(event) {
 		loadFiles(imageSelector.current.files);
 	}
 
+	/**
+	 * Load the files when user drops files into the upload area
+	 * @param {*} event
+	 */
 	function handleDrop(event) {
 		event.preventDefault();
 		if (event.dataTransfer.items) {
@@ -40,6 +55,9 @@ export default function UploadArea(props) {
 		}
 	}
 
+	/**
+	 * Cancel the onDragOver event
+	 */
 	function handleDragOver(event) {
 		event.preventDefault();
 	}

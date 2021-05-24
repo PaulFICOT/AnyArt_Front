@@ -1,4 +1,4 @@
-import Page from './Page';
+import Page from './Component/Page';
 import PostRequests from './HttpRequests/PostRequests';
 import React, { useState, useEffect, useContext } from 'react';
 import AuthComponent from './Authentification/AuthComponent';
@@ -6,7 +6,7 @@ import AuthService from './Authentification/AuthService';
 import AuthContext from './Authentification/AuthContext';
 import CategoriesRequests from './HttpRequests/CategoriesRequests'
 import Toggle from './Component/Toggle'
-import PostList from './PostList';
+import PostList from './Component/PostList';
 import 'src/css/home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

@@ -1,4 +1,4 @@
-import Page from './Page';
+import Page from './Component/Page';
 import Viewer from './Component/Viewer';
 import TagInput from './Component/TagInput';
 import { useState, useEffect, useRef } from 'react';
@@ -10,6 +10,9 @@ import AuthService from './Authentification/AuthService';
 import ImageRequests from './HttpRequests/ImageRequest';
 import UIkit from 'uikit';
 
+/**
+ * Component that shows the upload post page
+ */
 export default function Upload() {
 	const [tags, setTags] = useState([]);
 	const [imgs, setImgs] = useState([]);
@@ -28,22 +31,33 @@ export default function Upload() {
 		});
 	}, []);
 
+	/**
+	 * Make date for SQL format
+	 */
 	function getSQLDate() {
 		const date = new Date();
 		return date.toISOString().substr(0, 19).replace('T', ' ');
 	}
 
+	/**
+     * Check if the form is correctly completed
+     * @returns True if the form is correct otherwise False
+     */
 	function checkForm() {
 		let errors_messages = [];
+		// Check if the user has uploaded a file
 		if (files.length === 0) {
 			errors_messages.push('No images uploaded');
 		}
+
+		// Check the input form
 		document.querySelectorAll('#upload-form input').forEach(x => {
 			if (!x.value) {
 				errors_messages.push(x.name + ' is missing.');
 			}
 		});
 
+		// Check the textarea form
 		document.querySelectorAll('#upload-form textarea').forEach(x => {
 			if (!x.value) {
 				errors_messages.push(x.name + ' is missing.');
@@ -53,6 +67,7 @@ export default function Upload() {
 			}
 		});
 
+		// Check the select form
 		document.querySelectorAll('#upload-form select').forEach(x => {
 			if (x.value === '-1') {
 				errors_messages.push(x.name + ' is missing.');
@@ -62,6 +77,7 @@ export default function Upload() {
 		let html_return =
 			'<ul>' + errors_messages.map(x => `<li>${x}</li>`).join('') + '</ul>';
 
+		// Show all information about the form
 		if (errors_messages.length > 0) {
 			UIkit.notification({
 				message: html_return,
@@ -74,6 +90,9 @@ export default function Upload() {
 		return errors_messages.length === 0;
 	}
 
+	/**
+     * Check the form and if everything is correct, upload the new post
+     */
 	async function handleSubmit(event) {
 		event.preventDefault();
 
@@ -109,6 +128,10 @@ export default function Upload() {
 		});
 	}
 
+	/**
+	 * Change the page for the new post page
+	 * @param {*} postId The id of the new post
+	 */
 	function goToPost(postId) {
 		history.push(`/post/${postId}`);
 	}
