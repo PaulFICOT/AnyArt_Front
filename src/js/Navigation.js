@@ -8,16 +8,20 @@ import LogOut from './LogOut';
 import AuthComponent from './Authentification/AuthComponent';
 import React, { useState, useEffect, useContext } from 'react';
 import Notification from './Component/Notification';
-import AuthContext from './Authentification/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HttpClient from './HttpRequests/HttpClient';
+import AuthContext from './Authentification/AuthContext';
 import AuthService from './Authentification/AuthService';
 
 export default function Navigation() {
+	const [user, setUser] = useState([]);
+	const contextAuth = useContext(AuthContext);
 	const [notifs, setNotifs] = useState([]);
 	const [notifs_not_seen, setNotifsNotSeen] = useState([]);
-	const isLogin = useContext(AuthContext).isLogin;
-
+	function getDataUser() {
+		if (contextAuth.isLogin) {
+			setUser(AuthService.getCurrentUser());
+		}
 	function fetchNotifs() {
 		if (!isLogin) {
 			return;
@@ -38,10 +42,10 @@ export default function Navigation() {
 				setNotifsNotSeen(list_notifs_not_seen);
 			}
 		});
-
 		return () => (mounted = false);
-	}
 
+
+	}
 	useEffect(fetchNotifs, [setNotifs, isLogin]);
 
 	function removeNotifsBadge() {
@@ -85,7 +89,7 @@ export default function Navigation() {
 					</li>
 					<AuthComponent login="true">
 						<li className="uk-navbar-item">
-							<Link to="/add" style={{ textDecoration: 'none' }}>
+							<Link to="/upload" style={{ textDecoration: 'none' }}>
 								<button className="uk-button uk-button-default">Post</button>
 							</Link>
 						</li>
@@ -109,10 +113,19 @@ export default function Navigation() {
 					</AuthComponent>
 					<li>
 						<div className="uk-width-small avatar uk-logo">
-							<Thumbnail src={'2LowviVHZ-E'} rounded />
+							<Thumbnail
+								src={(user.profile_pic && contextAuth.isLogin) ? HttpClient.imageUrl(user.profile_pic) : '/images/user_avatar.png'}
+								rounded
+								version={Math.random()}
+							/>
 							<div data-uk-dropdown="mode:click">
 								<ul className="uk-nav uk-dropdown-nav">
 									<AuthComponent login="true">
+										<li>
+											<Link to={`/profils/${user.user_id}`} style={{ textDecoration: 'none' }}>
+												Profil
+											</Link>
+										</li>
 										<li>
 											<a href="#logout" uk-toggle="target: #logout">
 												Logout

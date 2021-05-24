@@ -9,7 +9,11 @@ export default function Carousel(props) {
 				<ul className="uk-slider-items uk-child-width-1-3 uk-grid">
 					{images.map((x, i) => (
 						<li key={i}>
-							<Thumbnail handleClick={onClick} src={x} />
+							<Thumbnail
+								handleClick={onClick}
+								src={x.picture_id}
+								original={x.thumb_of}
+							/>
 						</li>
 					))}
 				</ul>
