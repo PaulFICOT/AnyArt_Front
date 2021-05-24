@@ -8,7 +8,6 @@ import { useContext } from 'react';
 
 export default function Navigator() {
 	const loginContext = useContext(AuthContext);
-	console.log(loginContext.isLogin);
 	return (
 		<Switch>
 			<Route path="/post/:postId">
