@@ -1,15 +1,23 @@
 import React, { useContext } from 'react';
-import AuthService from "./Authentification/AuthService";
-import ModalPortal from './ModalPortal';
+import AuthService from "../../Authentification/AuthService";
+import ModalPortal from '../ModalPortal';
 import 'uikit/dist/css/uikit.min.css'
-import AuthContext from './Authentification/AuthContext';
+import AuthContext from '../../Authentification/AuthContext';
 
+/**
+ * Component that shows a modal for logout
+ */
 export default function LogOut() {
     const loginContext = useContext(AuthContext);
 
+    /**
+     * Logout user if the button is pressed
+     */
     function handleButton(event) {
         event.preventDefault();
+        // Remove token and user information
         AuthService.logout();
+        // logout user
         loginContext.setLogin(false);
     }
 

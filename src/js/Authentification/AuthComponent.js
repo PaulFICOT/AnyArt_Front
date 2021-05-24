@@ -1,11 +1,17 @@
 import AuthContext from './AuthContext';
 import React, { useContext } from 'react';
 
-export default function AuthComponent(props) {
+/**
+ * Component to show content if the user is logged in or not
+ * @param {login, children}
+ * login --> Condidition to show content
+ * children --> content
+ */
+export default function AuthComponent({login, children}) {
     const loginContext = useContext(AuthContext);
     return (
         <>
-            {loginContext.isLogin === JSON.parse(props.login) && props.children}
+            {loginContext.isLogin === JSON.parse(login) && children}
         </>
 	);
 }

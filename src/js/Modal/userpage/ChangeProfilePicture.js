@@ -1,12 +1,12 @@
 import React, { useRef, useContext } from 'react';
-import ModalPortal from './ModalPortal';
+import ModalPortal from '../ModalPortal';
 import 'uikit/dist/css/uikit.min.css';
-import AuthContext from './Authentification/AuthContext';
-import UploadAreaProfilePicture from './Component/UploadAreaProfilePicture';
-import Thumbnail from './Component/Thumbnail';
+import AuthContext from '../../Authentification/AuthContext';
+import UploadAreaProfilePicture from '../../Component/UploadAreaProfilePicture';
+import Thumbnail from '../../Component/Thumbnail';
 import UIkit from 'uikit';
-import ImageRequests from './HttpRequests/ImageRequest';
-import AuthService from './Authentification/AuthService';
+import ImageRequests from '../../HttpRequests/ImageRequest';
+import AuthService from '../../Authentification/AuthService';
 
 export default function ChangePassword({ setUser }) {
     const profile_picture = useRef(null);

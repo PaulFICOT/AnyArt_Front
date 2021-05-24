@@ -6,9 +6,9 @@ import { useParams } from 'react-router-dom';
 import Page from './Page';
 import HttpClient from './HttpRequests/HttpClient';
 import AuthContext from './Authentification/AuthContext';
-import ChangeInformation from './ChangeInformation';
-import ChangePassword from './ChangePassword';
-import ChangeProfilePicture from './ChangeProfilePicture';
+import ChangeInformation from './Modal/userpage/ChangeInformation';
+import ChangePassword from './Modal/userpage/ChangePassword';
+import ChangeProfilePicture from './Modal/userpage/ChangeProfilePicture';
 import 'src/css/userpage.css';
 
 export default function Profil() {

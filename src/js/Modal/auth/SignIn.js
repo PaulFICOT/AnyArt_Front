@@ -1,15 +1,21 @@
 import React, { useRef, useContext } from 'react';
-import AuthService from "./Authentification/AuthService";
-import ModalPortal from './ModalPortal';
+import AuthService from "../../Authentification/AuthService";
+import ModalPortal from '../ModalPortal';
 import 'uikit/dist/css/uikit.min.css'
-import AuthContext from './Authentification/AuthContext';
+import AuthContext from '../../Authentification/AuthContext';
 import UIkit from 'uikit';
 
+/**
+ * Component that shows a modal to login
+ */
 export default function SignIn() {
     const emailInput = useRef();
     const passwordInput = useRef();
     const loginContext = useContext(AuthContext);
 
+    /**
+     * Check the email and the password then login the user if this information is correct
+     */
     function handleSubmit(event) {
         event.preventDefault();
         const email = emailInput.current.value;
@@ -25,7 +31,9 @@ export default function SignIn() {
             return;
         }
 
+        // Ask the back-end to know if this information is correct
         AuthService.login(email, password).then(response => {
+            // login user
             loginContext.setLogin(response);
         });
     }
