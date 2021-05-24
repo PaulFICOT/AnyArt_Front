@@ -39,7 +39,7 @@ export default function Comment(props) {
 				<header className="uk-comment-header">
 					<div className="uk-grid-medium uk-flex-middle" data-uk-grid>
 						<div className="uk-comment-avatar">
-							<Link to={'/user/' + userId}>
+							<Link to={'/profils/' + userId}>
 								<Thumbnail
 									src={
 										userPic != null
@@ -54,12 +54,12 @@ export default function Comment(props) {
 						</div>
 						<div className="uk-width-expand">
 							<h4 className="uk-comment-title uk-margin-remove">
-								<Link className="uk-link-reset" to={'/user/' + userId}>
+								<Link className="uk-link-reset" to={'/profils/' + userId}>
 									{username}
 								</Link>
 							</h4>
 							<ul className="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-								<li>{realDate}</li>
+								<li>{new Date(realDate).toUTCString()}</li>
 								{isLogin ? (
 									<li>
 										<button

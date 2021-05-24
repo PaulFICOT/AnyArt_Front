@@ -1,25 +1,32 @@
 export default function Thumbnail(props) {
-	const width = props.width ?? 'auto';
-	const height = props.height ?? 'auto';
+	const {
+		src,
+		original,
+		setMainPic,
+		rounded,
+		version,
+		reference,
+		width,
+		height,
+	} = props;
 
 	return (
 		<img
 			className={
 				'uk-thumbnav uk-margin-left ' +
-				(props.rounded ? 'uk-border-circle' : 'uk-height-1-1')
+				(rounded ? 'uk-border-circle' : 'uk-height-1-1')
 			}
-			onClick={
-				props.handleClick ? () => props.handleClick(props.original) : null
-			}
-			src={(props.src ? props.src + (props.version ? `?v=${props.version}` : '') : null)}
+			onClick={setMainPic ? () => setMainPic(original) : null}
+			src={src ? src + (version ? `?v=${version}` : '') : null}
 			style={{
-				width: !props.rounded ? '100%' : '',
+				width: !rounded ? '100%' : '',
 				objectFit: 'cover',
+				cursor: setMainPic ? 'pointer' : 'default',
 			}}
-			alt={props.src}
-			ref={props.reference ?? null}
-			width={width}
-			height={height}
+			alt={src}
+			ref={reference ?? null}
+			width={width ?? 'auto'}
+			height={height ?? 'auto'}
 		/>
 	);
 }
