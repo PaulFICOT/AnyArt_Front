@@ -10,6 +10,9 @@ import App from './js/App';
 import AuthContext from './js/Authentification/AuthContext';
 import './css/index.css';
 
+/**
+ * Component that check the login and initializes AuthContext
+ */
 const AppWrapper = () => {
 	const [isLogin, setLogin] = useState(false);
 	const [refreshNav, setRefreshNav] = useState(false);
