@@ -52,7 +52,7 @@ export default function Navigation() {
 					<li>
 						<div className="uk-width-small avatar uk-margin-small-right uk-logo">
 							<Thumbnail
-								src={(current_user.profile_pic) ? HttpClient.imageUrl(current_user.profile_pic) : ''}
+								src={(current_user.profile_pic) ? HttpClient.imageUrl(current_user.profile_pic) : '/images/user_avatar.png'}
 								rounded
 							/>
 							<div data-uk-dropdown="mode:click">

@@ -58,7 +58,7 @@ export default function Profil() {
             <div className="uk-flex" id="user_profil" data-uk-grid>
                 <div className="uk-width-medium uk-margin-medium-left avatar uk-logo">
                     <Thumbnail
-                        src={(user.profile_pic) ? HttpClient.imageUrl(user.profile_pic) : ''}
+                        src={(user.profile_pic) ? HttpClient.imageUrl(user.profile_pic) : '/images/user_avatar.png'}
                         rounded
                     />
                 </div>
