@@ -27,6 +27,18 @@ export default class PostRequests {
 		return httpClient.post(`/${id}/comments`, parameters);
 	}
 
+	static getThumbnailsDiscover(id, parameters){
+		return httpClient.get(`/thumbnails/${id}/discover`, parameters);
+	}
+
+	static getThumbnailsBySearch(parameters){
+		return httpClient.get('/thumbnails/research', parameters);
+	}
+
+	static getThumbnailsUnlogged(id, parameters) {
+		return httpClient.get(`/thumbnails/${id}`, parameters);
+	}
+
 	static setOpinion(id, parameters) {
 		return httpClient.post(`/${id}/opinion`, parameters);
 	}

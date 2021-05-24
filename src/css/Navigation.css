@@ -9,11 +9,11 @@
     margin: 0 -35px 0 0;
 }
 
-.navigation form input, .navigation form button {
+.navigation .search input, .navigation .search button {
     background-color: lightgray;
 }
 
-.navigation form input:hover, .navigation form button:hover {
+.navigation .search input:hover, .navigation .search button:hover {
     background-color: lightgray;
 }
 
