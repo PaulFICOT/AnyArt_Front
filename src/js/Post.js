@@ -240,7 +240,7 @@ export default function Post() {
 								''
 							)}
 						</h2>
-						<Link to={'/category/' + category.id}>{category.name}</Link>
+						{category.name}
 						<div data-uk-grid>
 							<div className="uk-width-1-5@l uk-width-1-6@s">
 								<Thumbnail
