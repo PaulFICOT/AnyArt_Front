@@ -2,6 +2,7 @@ import Page from './Page';
 import Viewer from './Component/Viewer';
 import TagInput from './Component/TagInput';
 import { useState, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import UploadArea from './Component/UploadArea';
 import CategoriesRequests from './HttpRequests/CategoriesRequests';
 import PostRequests from './HttpRequests/PostRequests';
@@ -19,6 +20,7 @@ export default function Upload() {
 	const descInput = useRef(null);
 	const categoryInput = useRef(null);
 	const loggedUser = AuthService.getCurrentUser();
+	const history = useHistory();
 
 	useEffect(() => {
 		CategoriesRequests.getAll().then(response => {
@@ -45,6 +47,9 @@ export default function Upload() {
 		document.querySelectorAll('#upload-form textarea').forEach(x => {
 			if (!x.value) {
 				errors_messages.push(x.name + ' is missing.');
+			}
+			if (x.value.length > 255) {
+				errors_messages.push(x.name + ' is too long. (255 char max)');
 			}
 		});
 
@@ -88,7 +93,15 @@ export default function Upload() {
 		ImageRequests.upload(
 			{ user_id: loggedUser.user_id, post_id: postId },
 			files
-		).then(response => response);
+		).then(response => {
+			if (response.ok) {
+				goToPost(postId);
+			}
+		});
+	}
+
+	function goToPost(postId) {
+		history.push(`/post/${postId}`);
 	}
 
 	return (
