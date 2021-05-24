@@ -20,7 +20,7 @@ export default function Post() {
 		artistIsVerified: false,
 		artistJob: 'JOB',
 		openToWork: false,
-		artistPicId: '',
+		artistPicId: null,
 		content: 'CONTENT',
 		nbViews: 0,
 		isLiked: false,
@@ -194,7 +194,11 @@ export default function Post() {
 						<div data-uk-grid>
 							<div className="uk-width-1-5@l uk-width-1-6@s">
 								<Thumbnail
-									src={HttpClient.imageUrl(post.artistPicId)}
+									src={
+										post.artistPicId != null
+											? HttpClient.imageUrl(post.artistPicId)
+											: '/images/user_avatar.png'
+									}
 									rounded
 								/>
 							</div>
