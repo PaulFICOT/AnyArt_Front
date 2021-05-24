@@ -7,8 +7,8 @@ import Upload from './Upload';
 export default function Navigator() {
 	return (
 		<Switch>
-			<Route path="/post">
-				<Post postId="1" />
+			<Route path="/post/:postId">
+				<Post />
 			</Route>
 			<Route path="/upload">
 				<Upload />
