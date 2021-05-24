@@ -5,7 +5,8 @@
 }
 
 .avatar {
-    padding: 15px 40px 15px 40px;
+    padding: 15px 40px 15px 0;
+    margin: 0 -35px 0 0;
 }
 
 .navigation form input, .navigation form button {
@@ -26,5 +27,37 @@
 
 .navigation .bell {
     font-size: 3em;
-    margin: 0 -40px 0 30px;
+    margin: 0 0 0 30px;
+}
+
+.dropdown-notifs {
+    background: lightgray;
+    padding: 0 0 0 0;
+}
+
+.notification{
+    border-bottom: 1px solid #b3b3b3;
+    padding:30px 30px 30px 5px;
+}
+
+.notification a{
+    padding: 0 0 0 0;
+}
+
+.notification span {
+    vertical-align: middle;
+}
+
+.notification svg {
+    color: var(--primary-accent);
+    font-size: 0.7em;
+}
+
+.notification:hover {
+    background: rgb(230, 230, 230);
+    cursor: pointer;
+}
+
+.notification_link {
+    padding: 0 0 0 0;
 }
