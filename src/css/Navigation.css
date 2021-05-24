@@ -1,0 +1,63 @@
+@import './global.css';
+
+.navigation {
+    border-bottom: 2px solid var(--primary-accent);
+}
+
+.avatar {
+    padding: 15px 40px 15px 0;
+    margin: 0 -35px 0 0;
+}
+
+.navigation .search input, .navigation .search button {
+    background-color: lightgray;
+}
+
+.navigation .search input:hover, .navigation .search button:hover {
+    background-color: lightgray;
+}
+
+.navigation button {
+    background-color: var(--primary-accent);
+}
+
+.navigation button:hover {
+    background-color: var(--primary-accent);
+}
+
+.navigation .bell {
+    font-size: 3em;
+    margin: 0 0 0 30px;
+}
+
+.dropdown-notifs {
+    background: lightgray;
+    padding: 0 0 0 0;
+}
+
+.notification{
+    border-bottom: 1px solid #b3b3b3;
+    padding:30px 30px 30px 5px;
+}
+
+.notification a{
+    padding: 0 0 0 0;
+}
+
+.notification span {
+    vertical-align: middle;
+}
+
+.notification svg {
+    color: var(--primary-accent);
+    font-size: 0.7em;
+}
+
+.notification:hover {
+    background: rgb(230, 230, 230);
+    cursor: pointer;
+}
+
+.notification_link {
+    padding: 0 0 0 0;
+}

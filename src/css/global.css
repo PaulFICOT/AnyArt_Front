@@ -1,0 +1,41 @@
+:root {
+    --primary-color: #0e1025;
+    --primary-text-color: #ffffff;
+    --primary-accent: #F8A26F;
+}
+
+html {
+    background-color: var(--primary-color);
+    color: var(--primary-text-color);
+}
+
+.uk-modal-dialog {
+    background-color: var(--primary-color);
+    color: lightgray;
+}
+
+.uk-modal-header {
+    background-color: var(--primary-color);
+    border-bottom: 1px solid var(--primary-accent);
+}
+
+.uk-modal-footer {
+    background-color: var(--primary-color);
+    border-top: 1px solid var(--primary-accent);
+}
+
+.uk-modal-dialog .cancel {
+    background-color: lightgray;
+    color: black;
+}
+
+.uk-modal-dialog .submit {
+    background-color: var(--primary-accent);
+    color: black;
+}
+
+.uk-modal-dialog .uk-modal-title {
+    color: var(--primary-accent);
+    font-weight: bold;
+    text-align: center;
+}

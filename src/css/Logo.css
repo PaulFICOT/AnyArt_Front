@@ -1,0 +1,29 @@
+@import './global.css';
+
+@font-face {
+    font-family: 'Mont-Heavy';
+    src: url('src/font/Mont-Heavy.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Segoe-Script';
+    src: url('src/font/segoesc.ttf') format('truetype');
+}
+
+[class*="logo-"] {
+    font-size: 250%;
+    color: var(--primary-accent);
+}
+
+.logo-first-letter {
+    font-size: 1.5em;
+}
+
+.logo-any {
+    font-family: 'Mont-Heavy', Arial, sans-serif;
+}
+
+.logo-art {
+    font-family: 'Segoe-Script', cursive;
+    font-weight: bold;
+}
